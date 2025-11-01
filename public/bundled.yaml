@@ -1,0 +1,90 @@
+openapi: 3.1.0
+info:
+  title: Book-Api
+  version: 1.0.0
+servers:
+  - url: http://localhost:3000
+    description: Local development server
+  - url: https://library-api-mz6y.onrender.com
+    description: Production server on render
+tags:
+  - name: Books
+    description: Book-related endpoints
+paths:
+  /books:
+    get:
+      summary: List all books
+      tags:
+        - Books
+      parameters:
+        - name: author
+          in: query
+          required: false
+          description: Filter books by author
+          schema:
+            type: string
+            example: Ernest Hemingway
+        - name: limit
+          in: query
+          required: false
+          description: Limit the number of books returned
+          schema:
+            type: integer
+            example: 10
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/book'
+    post:
+      summary: Create a new book
+      tags:
+        - Books
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/book'
+      responses:
+        '201':
+          description: Book created successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/book'
+        '400':
+          description: Invalid input
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ValidationError'
+components:
+  schemas:
+    book:
+      type: object
+      properties:
+        id:
+          readOnly: true
+          type: integer
+          example: 1
+        title:
+          type: string
+          example: The Old Man and The Sea
+        author:
+          type: string
+          example: Ernest Hemingway
+    ValidationError:
+      type: object
+      properties:
+        error:
+          type: string
+          example: Validation failed
+        details:
+          type: array
+          items:
+            type: string

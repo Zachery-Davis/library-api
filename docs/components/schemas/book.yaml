@@ -1,0 +1,12 @@
+type: object
+properties:
+  id:
+    readOnly: true
+    type: integer
+    example: 1
+  title:
+    type: string
+    example: The Old Man and The Sea
+  author:
+    type: string
+    example: Ernest Hemingway

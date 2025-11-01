@@ -1,0 +1,32 @@
+import { body } from 'express-validator';
+import { checkValidationResults } from './validationHandler.js';
+
+export const validateBook = [
+  body('title')
+    .isString()
+    .withMessage('Title must be a string')
+    .notEmpty()
+    .withMessage('Title is required'),
+
+  body('author')
+    .isString()
+    .withMessage('Author must be a string')
+    .notEmpty()
+    .withMessage('Author is required'),
+
+  body('description')
+    .optional()
+    .isString()
+    .withMessage('Description must be a string'),
+
+  body('genre').optional().isString().withMessage('Genre must be a string'),
+
+  body('published')
+    .optional()
+    .isISO8601()
+    .withMessage('Published must be a valid ISO8601 date'),
+
+  body('isbn').optional().isString().withMessage('ISBN must be a string'),
+
+  checkValidationResults,
+];

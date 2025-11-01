@@ -1,0 +1,15 @@
+openapi: 3.1.0
+info:
+  title: Book-Api
+  version: 1.0.0
+servers:
+  - url: http://localhost:3000
+    description: Local development server
+  - url: https://library-api-uo21.onrender.com
+    description: Production server on render
+tags:
+  - name: Books
+    description: Book-related endpoints
+paths:
+  /books:
+    $ref: paths/books.yaml

@@ -1,0 +1,28 @@
+get:
+  summary: List all books
+  tags:
+    - Books
+  parameters:
+    - name: author
+      in: query
+      required: false
+      description: Filter books by author
+      schema:
+        type: string
+        example: Ernest Hemingway
+    - name: limit
+      in: query
+      required: false
+      description: Limit the number of books returned
+      schema:
+        type: integer
+        example: 10
+  responses:
+    '200':
+      description: OK
+      content:
+        application/json:
+          schema:
+            type: array
+            items:
+              $ref: ../components/schemas/book.yaml
