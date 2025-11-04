@@ -5,7 +5,7 @@ info:
 servers:
   - url: http://localhost:3000
     description: Local development server
-  - url: https://library-api-mz6y.onrender.com
+  - url: https://library-api-uo21.onrender.com
     description: Production server on render
 tags:
   - name: Books
@@ -40,29 +40,6 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/book'
-    post:
-      summary: Create a new book
-      tags:
-        - Books
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/book'
-      responses:
-        '201':
-          description: Book created successfully
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/book'
-        '400':
-          description: Invalid input
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ValidationError'
 components:
   schemas:
     book:
@@ -78,13 +55,3 @@ components:
         author:
           type: string
           example: Ernest Hemingway
-    ValidationError:
-      type: object
-      properties:
-        error:
-          type: string
-          example: Validation failed
-        details:
-          type: array
-          items:
-            type: string

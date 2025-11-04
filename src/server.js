@@ -9,8 +9,8 @@ const app = express();
 const PORT = process.env.PORT || 3000;
 app.use(
   cors({
-    origin: 'https://library-api-mz6y.onrender.com',
-  })
+    origin: ['https://library-api-uo21.onrender.com', 'http://localhost:3000'],
+  }),
 );
 app.use(express.json());
 app.use(morgan('tiny'));
