@@ -4,16 +4,21 @@ export default {
   async createCheckout(data) {
     return prisma.checkout.create({ data });
   },
-  async getCheckoutById(id) {
-    return prisma.checkout.findUnique({ where: { id } });
+  async getCheckoutById(checkoutId) {
+    return prisma.checkout.findUnique({ where: { checkoutId } });
   },
   async getAllCheckouts() {
-    return prisma.checkout.findMany();
+    return prisma.checkout.findMany({
+      include: {
+        user: true,
+        book: true,
+      },
+    });
   },
-  async updateCheckout(id, data) {
-    return prisma.checkout.update({ where: { id }, data });
+  async updateCheckout(checkoutId, data) {
+    return prisma.checkout.update({ where: { checkoutId }, data });
   },
-  async deleteCheckout(id) {
-    return prisma.checkout.delete({ where: { id } });
+  async deleteCheckout(checkoutId) {
+    return prisma.checkout.delete({ where: { checkoutId } });
   },
 };
