@@ -6,7 +6,7 @@ export default {
       include: {
         bookAuthors: { include: { author: true } },
         bookGenres: { include: { genre: true } },
-        checkouts: true,
+        checkouts: { include: { user: true } },
       },
     });
   },
@@ -16,7 +16,7 @@ export default {
       include: {
         bookAuthors: { include: { author: true } },
         bookGenres: { include: { genre: true } },
-        checkouts: true,
+        checkouts: { include: { user: true } },
       },
     });
   },
