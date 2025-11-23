@@ -10,9 +10,9 @@ export default {
       },
     });
   },
-  async findBookById(id) {
+  async findBookById(bookId) {
     return await prisma.book.findUnique({
-      where: { id },
+      where: { bookId },
       include: {
         bookAuthors: { include: { author: true } },
         bookGenres: { include: { genre: true } },
@@ -23,10 +23,10 @@ export default {
   async createBook(data) {
     return await prisma.book.create({ data });
   },
-  async updateBook(id, data) {
-    return await prisma.book.update({ where: { id }, data });
+  async updateBook(bookId, data) {
+    return await prisma.book.update({ where: { bookId }, data });
   },
-  async removeBook(id) {
-    return await prisma.book.delete({ where: { id } });
+  async removeBook(bookId) {
+    return await prisma.book.delete({ where: { bookId } });
   },
 };
