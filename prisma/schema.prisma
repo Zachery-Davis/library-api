@@ -39,12 +39,12 @@ model User {
  createdAt DateTime @default(now()) @map("created_at")
  updatedAt DateTime @updatedAt @map("updated_at")
  status UserStatus @default(active)
- checkOuts CheckOut[] @relation("UserCheckOuts")
+ checkouts Checkout[] @relation("UserCheckOuts")
  @@map("users")
  @@index([email])
 }
 
-model CheckOut {
+model Checkout {
  checkoutId Int @id @default(autoincrement()) @map("checkout_id")
  userId Int @map("user_id")
  bookId Int @map("book_id")
@@ -69,7 +69,7 @@ model Book {
  description String? @db.VarChar(1000)
  createdAt DateTime @default(now()) @map("created_at")
  updatedAt DateTime @updatedAt @map("updated_at")
- checkOuts CheckOut[] @relation("BookCheckOuts")
+ checkouts Checkout[] @relation("BookCheckOuts")
  bookAuthors BookAuthor[]
  bookGenres BookGenre[]
  @@map("books")

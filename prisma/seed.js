@@ -92,7 +92,7 @@ async function main() {
     },
   });
 
-  await prisma.checkOut.create({
+  await prisma.checkout.create({
     data: {
       userId: member.userId,
       bookId: book1.bookId,
@@ -101,7 +101,7 @@ async function main() {
     },
   });
 
-  await prisma.checkOut.create({
+  await prisma.checkout.create({
     data: {
       userId: member.userId,
       bookId: book2.bookId,
