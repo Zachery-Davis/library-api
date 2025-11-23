@@ -4,16 +4,16 @@ export default {
   async createAuthor(data) {
     return prisma.author.create({ data });
   },
-  async getAuthorById(id) {
-    return prisma.author.findUnique({ where: { id } });
+  async getAuthorById(authorId) {
+    return prisma.author.findUnique({ where: { authorId } });
   },
   async getAllAuthors() {
     return prisma.author.findMany();
   },
-  async updateAuthor(id, data) {
-    return prisma.author.update({ where: { id }, data });
+  async updateAuthor(authorId, data) {
+    return prisma.author.update({ where: { authorId }, data });
   },
-  async deleteAuthor(id) {
-    return prisma.author.delete({ where: { id } });
+  async deleteAuthor(authorId) {
+    return prisma.author.delete({ where: { authorId } });
   },
 };
