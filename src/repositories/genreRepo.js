@@ -5,10 +5,37 @@ export default {
     return prisma.genre.create({ data });
   },
   async getGenreById(genreId) {
-    return prisma.genre.findUnique({ where: { genreId } });
+    return prisma.genre.findUnique({
+      where: { genreId },
+      include: {
+        bookGenres: {
+          include: {
+            book: {
+              include: {
+                bookAuthors: { include: { author: true } },
+                checkouts: { include: { user: true } },
+              },
+            },
+          },
+        },
+      },
+    });
   },
   async getAllGenres() {
-    return prisma.genre.findMany();
+    return prisma.genre.findMany({
+      include: {
+        bookGenres: {
+          include: {
+            book: {
+              include: {
+                bookAuthors: { include: { author: true } },
+                checkouts: { include: { user: true } },
+              },
+            },
+          },
+        },
+      },
+    });
   },
   async updateGenre(genreId, data) {
     return prisma.genre.update({ where: { genreId }, data });
