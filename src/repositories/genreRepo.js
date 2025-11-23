@@ -4,16 +4,16 @@ export default {
   async createGenre(data) {
     return prisma.genre.create({ data });
   },
-  async getGenreById(id) {
-    return prisma.genre.findUnique({ where: { id } });
+  async getGenreById(genreId) {
+    return prisma.genre.findUnique({ where: { genreId } });
   },
   async getAllGenres() {
     return prisma.genre.findMany();
   },
-  async updateGenre(id, data) {
-    return prisma.genre.update({ where: { id }, data });
+  async updateGenre(genreId, data) {
+    return prisma.genre.update({ where: { genreId }, data });
   },
-  async deleteGenre(id) {
-    return prisma.genre.delete({ where: { id } });
+  async deleteGenre(genreId) {
+    return prisma.genre.delete({ where: { genreId } });
   },
 };
