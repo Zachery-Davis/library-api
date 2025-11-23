@@ -5,13 +5,29 @@ export default {
     return prisma.checkout.create({ data });
   },
   async getCheckoutById(checkoutId) {
-    return prisma.checkout.findUnique({ where: { checkoutId } });
+    return prisma.checkout.findUnique({
+      where: { checkoutId },
+      include: {
+        user: true,
+        book: {
+          include: {
+            bookAuthors: { include: { author: true } },
+            bookGenres: { include: { genre: true } },
+          },
+        },
+      },
+    });
   },
   async getAllCheckouts() {
     return prisma.checkout.findMany({
       include: {
         user: true,
-        book: true,
+        book: {
+          include: {
+            bookAuthors: { include: { author: true } },
+            bookGenres: { include: { genre: true } },
+          },
+        },
       },
     });
   },
