@@ -10,6 +10,15 @@ servers:
 tags:
   - name: Books
     description: Book-related endpoints
+  - name: Authors
+    description: Author-related endpoints
 paths:
   /books:
     $ref: paths/books.yaml
+  /books/{bookId}:
+    $ref: paths/books.yaml
+  /authors:
+    $ref: paths/authors.yaml
+  /authors/{authorId}:
+    $ref: paths/authors.yaml
+  
