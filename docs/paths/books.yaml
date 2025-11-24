@@ -1,5 +1,5 @@
 get:
-  summary: List all books
+  summary: List all books by author
   tags:
     - Books
   parameters:
