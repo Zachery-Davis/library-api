@@ -1,0 +1,12 @@
+type: object
+properties:
+  id:
+    readOnly: true
+    type: integer
+    example: 1
+  name:
+    type: string
+    example: John Doe
+  email:
+    type: string
+    example: johndoe@example.com

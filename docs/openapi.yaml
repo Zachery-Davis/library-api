@@ -12,6 +12,8 @@ tags:
     description: Book-related endpoints
   - name: Authors
     description: Author-related endpoints
+  - name: Users
+    description: User-related endpoints
 paths:
   /books:
     $ref: paths/books.yaml
@@ -21,4 +23,9 @@ paths:
     $ref: paths/authors.yaml
   /authors/{authorId}:
     $ref: paths/authors.yaml
+  /users:
+    $ref: paths/users.yaml
+  /users/{userId}:
+    $ref: paths/users.yaml
+  
   
