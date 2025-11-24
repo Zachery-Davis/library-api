@@ -1,0 +1,131 @@
+get:
+  summary: List all checkouts
+  tags:
+    - Checkouts
+  responses:
+    '200':
+      description: OK
+      content:
+        application/json:
+          schema:
+            type: array
+            items:
+              $ref: ../components/schemas/checkout.yaml
+
+get:
+  summary: Get a checkout by ID
+  tags:
+    - Checkouts
+  parameters:
+    - name: checkoutId
+      in: path
+      required: true
+      description: ID of the checkout to retrieve
+      schema:
+        type: integer
+        example: 1
+  responses:
+    '200':
+      description: OK
+      content:
+        application/json:
+          schema:
+            $ref: ../components/schemas/checkout.yaml
+    '404':
+      description: Checkout not found
+
+post:
+  summary: Create a new checkout
+  tags:
+    - Checkouts
+  requestBody:
+    required: true
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            userId:
+              type: integer
+              example: 5
+            bookId:
+              type: integer
+              example: 12
+            checkoutDate:
+              type: string
+              format: date
+              example: '2024-01-15'
+            returnDate:
+              type: string
+              format: date
+              nullable: true
+              example: '2024-02-01'
+  responses:
+    '201':
+      description: Checkout created
+      content:
+        application/json:
+          schema:
+            $ref: ../components/schemas/checkout.yaml
+
+put:
+  summary: Update an existing checkout
+  tags:
+    - Checkouts
+  parameters:
+    - name: checkoutId
+      in: path
+      required: true
+      description: ID of the checkout to update
+      schema:
+        type: integer
+        example: 1
+  requestBody:
+    required: true
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            userId:
+              type: integer
+              example: 5
+            bookId:
+              type: integer
+              example: 12
+            checkoutDate:
+              type: string
+              format: date
+              example: '2024-01-15'
+            returnDate:
+              type: string
+              format: date
+              nullable: true
+              example: '2024-02-01'
+  responses:
+    '200':
+      description: Checkout updated
+      content:
+        application/json:
+          schema:
+            $ref: ../components/schemas/checkout.yaml
+    '404':
+      description: Checkout not found
+
+delete:
+  summary: Delete a checkout
+  tags:
+    - Checkouts
+  parameters:
+    - name: checkoutId
+      in: path
+      required: true
+      description: ID of the checkout to delete
+      schema:
+        type: integer
+        example: 1
+  responses:
+    '204':
+      description: Checkout deleted successfully
+    '404':
+      description: Checkout not found

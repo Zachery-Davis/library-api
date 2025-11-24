@@ -1,0 +1,21 @@
+type: object
+properties:
+  id:
+    readOnly: true
+    type: integer
+    example: 1
+  userId:
+    type: integer
+    example: 5
+  bookId:
+    type: integer
+    example: 12
+  checkoutDate:
+    type: string
+    format: date
+    example: '2024-01-15'
+  returnDate:
+    type: string
+    format: date
+    nullable: true
+    example: '2024-02-01'

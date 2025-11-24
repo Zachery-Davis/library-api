@@ -16,6 +16,8 @@ tags:
     description: User-related endpoints
   - name: Genres
     description: Genre-related endpoints
+  - name: Checkouts
+    description: Checkout-related endpoints
 paths:
   /books:
     $ref: paths/books.yaml
@@ -33,6 +35,10 @@ paths:
     $ref: paths/genres.yaml
   /genres/{genreId}:
     $ref: paths/genres.yaml
+  /checkouts:
+    $ref: paths/checkouts.yaml
+  /checkouts/{checkoutId}:
+    $ref: paths/checkouts.yaml
   
   
   
