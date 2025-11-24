@@ -14,6 +14,8 @@ tags:
     description: Author-related endpoints
   - name: Users
     description: User-related endpoints
+  - name: Genres
+    description: Genre-related endpoints
 paths:
   /books:
     $ref: paths/books.yaml
@@ -27,5 +29,10 @@ paths:
     $ref: paths/users.yaml
   /users/{userId}:
     $ref: paths/users.yaml
+  /genres:
+    $ref: paths/genres.yaml
+  /genres/{genreId}:
+    $ref: paths/genres.yaml
+  
   
   
