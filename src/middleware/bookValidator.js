@@ -9,10 +9,14 @@ export const validateBook = [
     .withMessage('Title is required'),
 
   body('author')
+    .optional()
     .isString()
-    .withMessage('Author must be a string')
-    .notEmpty()
-    .withMessage('Author is required'),
+    .withMessage('Author must be a string'),
+
+  body('authors')
+    .optional()
+    .isArray()
+    .withMessage('Authors must be an array'),
 
   body('description')
     .optional()
@@ -20,6 +24,7 @@ export const validateBook = [
     .withMessage('Description must be a string'),
 
   body('genre').optional().isString().withMessage('Genre must be a string'),
+  body('genres').optional().isArray().withMessage('Genres must be an array'),
 
   body('published')
     .optional()
