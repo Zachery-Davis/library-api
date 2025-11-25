@@ -5,7 +5,7 @@ import jwt from 'jsonwebtoken';
 // REGISTER
 export const register = async (req, res) => {
   try {
-    const { email, password, fullName, role } = req.body;
+    const { email, password, fullName } = req.body;
 
     // Check required fields
     if (!email || !password || !fullName) {
@@ -30,7 +30,7 @@ export const register = async (req, res) => {
         email,
         password: hashedPassword,
         fullName,
-        role: role || 'member',
+        role: 'member',
         status: 'active',
       },
     });

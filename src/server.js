@@ -5,6 +5,10 @@ import swagger from 'swagger-ui-express';
 import YAML from 'yamljs';
 import bookRoutes from './routes/bookRoutes.js';
 import authRoutes from './routes/authRoutes.js';
+import authorRoutes from './routes/authorRoutes.js';
+import genreRoutes from './routes/genreRoutes.js';
+import userRoutes from './routes/userRoutes.js';
+import checkoutRoutes from './routes/checkoutRoutes.js';
 
 
 
@@ -28,6 +32,10 @@ app.get('/health', (req, res) => {
 app.use('/auth', authRoutes);
 
 app.use('/books', bookRoutes);
+app.use('/authors', authorRoutes);
+app.use('/genres', genreRoutes);
+app.use('/users', userRoutes);
+app.use('/checkouts', checkoutRoutes);
 
 app.use((req, res, next) => {
   res.status(404).json({ error: 'Not found' });
