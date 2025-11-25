@@ -1,26 +1,48 @@
 import authorService from '../services/authorService.js';
+import { handlePrismaError } from '../middleware/errorHandler.js';
 
 export async function createAuthor(req, res) {
-  const created = await authorService.createAuthor(req.body);
-  res.status(201).json(created);
+  try {
+    const created = await authorService.createAuthor(req.body);
+    res.status(201).json(created);
+  } catch (err) {
+    handlePrismaError(res, err);
+  }
 }
 
 export async function getAuthors(req, res) {
-  const authors = await authorService.getAllAuthors();
-  res.status(200).json(authors);
+  try {
+    const authors = await authorService.getAllAuthors();
+    res.status(200).json(authors);
+  } catch (err) {
+    handlePrismaError(res, err);
+  }
 }
 
 export async function getAuthor(req, res) {
-  const author = await authorService.getAuthorById(req.params.id);
-  res.status(200).json(author);
+  try {
+    const author = await authorService.getAuthorById(req.params.id);
+    if (!author) return res.status(404).json({ error: 'Author not found' });
+    res.status(200).json(author);
+  } catch (err) {
+    handlePrismaError(res, err);
+  }
 }
 
 export async function updateAuthor(req, res) {
-  const updated = await authorService.updateAuthor(req.params.id, req.body);
-  res.status(200).json(updated);
+  try {
+    const updated = await authorService.updateAuthor(req.params.id, req.body);
+    res.status(200).json(updated);
+  } catch (err) {
+    handlePrismaError(res, err);
+  }
 }
 
 export async function deleteAuthor(req, res) {
-  const deleted = await authorService.deleteAuthor(req.params.id);
-  res.status(200).json(deleted);
+  try {
+    await authorService.deleteAuthor(req.params.id);
+    res.status(204).end();
+  } catch (err) {
+    handlePrismaError(res, err);
+  }
 }

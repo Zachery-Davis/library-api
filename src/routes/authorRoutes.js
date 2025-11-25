@@ -4,34 +4,35 @@ import { validateAuthor } from '../middleware/authorValidator.js';
 
 import {
   authenticateToken,
-  requireRole
+  requireRole,
 } from '../middleware/authMiddleware.js';
 
 const router = express.Router();
 
-router.post('/',
-  authenticateToken,
-  requireRole('librarian'),
-  validateAuthor,
-  authorController.createAuthor
-);
-
 router.get('/', authorController.getAuthors);
 router.get('/:id', authorController.getAuthor);
 
-
-router.put('/:id',
+router.post(
+  '/',
   authenticateToken,
   requireRole('librarian'),
   validateAuthor,
-  authorController.updateAuthor
+  authorController.createAuthor,
 );
 
-
-router.delete('/:id',
+router.put(
+  '/:id',
   authenticateToken,
   requireRole('librarian'),
-  authorController.deleteAuthor
+  validateAuthor,
+  authorController.updateAuthor,
+);
+
+router.delete(
+  '/:id',
+  authenticateToken,
+  requireRole('librarian'),
+  authorController.deleteAuthor,
 );
 
 export default router;

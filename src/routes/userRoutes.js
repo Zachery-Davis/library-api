@@ -6,41 +6,46 @@ import {
   authenticateToken,
   requireRole,
   requireSelfOrAdmin,
-  requireActiveUser
+  requireActiveUser,
 } from '../middleware/authMiddleware.js';
 
 const router = express.Router();
 
-router.post('/',
+router.post(
+  '/',
   authenticateToken,
   requireRole('librarian'),
   validateUser,
-  userController.createUser
+  userController.createUser,
 );
 
-router.get('/',
+router.get(
+  '/',
   authenticateToken,
   requireRole('librarian'),
-  userController.getUsers
+  userController.getUsers,
 );
 
-router.get('/:id',
+router.get(
+  '/:id',
   authenticateToken,
   requireSelfOrAdmin,
-  userController.getUser
+  userController.getUser,
 );
 
-router.put('/:id',
+router.put(
+  '/:id',
   authenticateToken,
   requireSelfOrAdmin,
   validateUser,
-  userController.updateUser
+  userController.updateUser,
 );
 
-router.delete('/:id',
+router.delete(
+  '/:id',
   authenticateToken,
   requireRole('librarian'),
-  userController.deleteUser
+  userController.deleteUser,
 );
 
 export default router;

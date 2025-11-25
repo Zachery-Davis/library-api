@@ -18,6 +18,6 @@ export default {
   },
 
   async deleteGenre(id) {
-    return genreRepo.deleteGenre(Number(id));
+    await genreRepo.deleteGenre(Number(id));
   },
 };

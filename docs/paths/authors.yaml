@@ -11,6 +11,8 @@ get:
             type: array
             items:
               $ref: ../components/schemas/author.yaml
+    '500':
+      $ref: ../components/responses/internalServerError.yaml
 
 post:
   summary: Create a new author
@@ -33,53 +35,13 @@ post:
         application/json:
           schema:
             $ref: ../components/schemas/author.yaml
-
-put:
-  summary: Update an existing author
-  tags:
-    - Authors
-  parameters:
-    - name: authorId
-      in: path
-      required: true
-      description: ID of the author to update
-      schema:
-        type: integer
-        example: 1
-  requestBody:
-    required: true
-    content:
-      application/json:
-        schema:
-          type: object
-          properties:
-            name:
-              type: string
-              example: Ernest Hemingway
-  responses:
-    '200':
-      description: Author updated
-      content:
-        application/json:
-          schema:
-            $ref: ../components/schemas/author.yaml
-    '404':
-      description: Author not found
-
-delete:
-  summary: Delete an author
-  tags:
-    - Authors
-  parameters:
-    - name: authorId
-      in: path
-      required: true
-      description: ID of the author to delete
-      schema:
-        type: integer
-        example: 1
-  responses:
-    '204':
-      description: Author deleted successfully
-    '404':
-      description: Author not found
+    '400':
+      $ref: ../components/responses/badRequest.yaml
+    '401':
+      $ref: ../components/responses/unauthorized.yaml
+    '403':
+      $ref: ../components/responses/forbidden.yaml
+    '409':
+      $ref: ../components/responses/conflict.yaml
+    '500':
+      $ref: ../components/responses/internalServerError.yaml

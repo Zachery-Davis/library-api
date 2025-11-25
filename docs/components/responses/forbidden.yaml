@@ -1,0 +1,9 @@
+description: Forbidden
+content:
+  application/json:
+    schema:
+      $ref: ../schemas/ValidationError.yaml
+    examples:
+      Forbidden:
+        value:
+          error: 'Forbidden'

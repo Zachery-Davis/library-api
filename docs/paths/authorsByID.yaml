@@ -17,5 +17,83 @@ get:
         application/json:
           schema:
             $ref: ../components/schemas/author.yaml
+    '400':
+      $ref: ../components/responses/badRequest.yaml
+    '401':
+      $ref: ../components/responses/unauthorized.yaml
+    '403':
+      $ref: ../components/responses/forbidden.yaml
     '404':
-      description: Author not found
+      $ref: ../components/responses/notFound.yaml
+    '500':
+      $ref: ../components/responses/internalServerError.yaml
+
+put:
+  summary: Update an existing author
+  tags:
+    - Authors
+  parameters:
+    - name: authorId
+      in: path
+      required: true
+      description: ID of the author to update
+      schema:
+        type: integer
+        example: 1
+  requestBody:
+    required: true
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            name:
+              type: string
+              example: Ernest Hemingway
+  responses:
+    '200':
+      description: Author updated
+      content:
+        application/json:
+          schema:
+            $ref: ../components/schemas/author.yaml
+    '400':
+      $ref: ../components/responses/badRequest.yaml
+    '401':
+      $ref: ../components/responses/unauthorized.yaml
+    '403':
+      $ref: ../components/responses/forbidden.yaml
+    '404':
+      $ref: ../components/responses/notFound.yaml
+    '409':
+      $ref: ../components/responses/conflict.yaml
+    '500':
+      $ref: ../components/responses/internalServerError.yaml
+
+delete:
+  summary: Delete an author
+  tags:
+    - Authors
+  parameters:
+    - name: authorId
+      in: path
+      required: true
+      description: ID of the author to delete
+      schema:
+        type: integer
+        example: 1
+  responses:
+    '204':
+      description: Author deleted successfully
+    '400':
+      $ref: ../components/responses/badRequest.yaml
+    '401':
+      $ref: ../components/responses/unauthorized.yaml
+    '403':
+      $ref: ../components/responses/forbidden.yaml
+    '404':
+      $ref: ../components/responses/notFound.yaml
+    '409':
+      $ref: ../components/responses/conflict.yaml
+    '500':
+      $ref: ../components/responses/internalServerError.yaml

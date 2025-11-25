@@ -11,6 +11,8 @@ get:
             type: array
             items:
               $ref: ../components/schemas/genre.yaml
+    '500':
+      $ref: ../components/responses/internalServerError.yaml
 
 post:
   summary: Create a new genre
@@ -33,53 +35,13 @@ post:
         application/json:
           schema:
             $ref: ../components/schemas/genre.yaml
-
-put:
-  summary: Update an existing genre
-  tags:
-    - Genres
-  parameters:
-    - name: genreId
-      in: path
-      required: true
-      description: ID of the genre to update
-      schema:
-        type: integer
-        example: 1
-  requestBody:
-    required: true
-    content:
-      application/json:
-        schema:
-          type: object
-          properties:
-            name:
-              type: string
-              example: Fiction
-  responses:
-    '200':
-      description: Genre updated
-      content:
-        application/json:
-          schema:
-            $ref: ../components/schemas/genre.yaml
-    '404':
-      description: Genre not found
-
-delete:
-  summary: Delete a genre
-  tags:
-    - Genres
-  parameters:
-    - name: genreId
-      in: path
-      required: true
-      description: ID of the genre to delete
-      schema:
-        type: integer
-        example: 1
-  responses:
-    '204':
-      description: Genre deleted successfully
-    '404':
-      description: Genre not found
+    '400':
+      $ref: ../components/responses/badRequest.yaml
+    '401':
+      $ref: ../components/responses/unauthorized.yaml
+    '403':
+      $ref: ../components/responses/forbidden.yaml
+    '409':
+      $ref: ../components/responses/conflict.yaml
+    '500':
+      $ref: ../components/responses/internalServerError.yaml

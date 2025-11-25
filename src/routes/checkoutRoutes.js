@@ -6,7 +6,7 @@ import {
   authenticateToken,
   requireRole,
   requireSelfOrAdmin,
-  requireActiveUser
+  requireActiveUser,
 } from '../middleware/authMiddleware.js';
 
 const router = express.Router();
@@ -18,43 +18,49 @@ const assignCheckoutUser = (req, res, next) => {
   next();
 };
 
-router.post('/',
+router.get(
+  '/',
+  authenticateToken,
+  requireRole('librarian'),
+  checkoutController.getCheckouts,
+);
+
+router.post(
+  '/',
   authenticateToken,
   requireActiveUser,
   assignCheckoutUser,
   validateCheckout,
-  checkoutController.createCheckout
+  checkoutController.createCheckout,
 );
 
-router.post('/:id/return',
+router.get(
+  '/:id',
   authenticateToken,
   requireSelfOrAdmin,
-  checkoutController.returnCheckout
+  checkoutController.getCheckout,
 );
 
-router.get('/',
-  authenticateToken,
-  requireRole('librarian'),
-  checkoutController.getCheckouts
-);
-
-router.get('/:id',
+router.put(
+  '/:id',
   authenticateToken,
   requireSelfOrAdmin,
-  checkoutController.getCheckout
-);
-
-router.put('/:id',
-  authenticateToken,
-  requireRole('librarian'),
   validateCheckout,
-  checkoutController.updateCheckout
+  checkoutController.updateCheckout,
 );
 
-router.delete('/:id',
+router.delete(
+  '/:id',
   authenticateToken,
   requireRole('librarian'),
-  checkoutController.deleteCheckout
+  checkoutController.deleteCheckout,
+);
+
+router.post(
+  '/:id/return',
+  authenticateToken,
+  requireSelfOrAdmin,
+  checkoutController.returnCheckout,
 );
 
 export default router;

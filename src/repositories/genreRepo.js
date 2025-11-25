@@ -2,7 +2,21 @@ import prisma from '../config/db.js';
 
 export default {
   async createGenre(data) {
-    return prisma.genre.create({ data });
+    return prisma.genre.create({
+      data,
+      include: {
+        bookGenres: {
+          include: {
+            book: {
+              include: {
+                bookAuthors: { include: { author: true } },
+                checkouts: { include: { user: true } },
+              },
+            },
+          },
+        },
+      },
+    });
   },
   async getGenreById(genreId) {
     return prisma.genre.findUnique({
@@ -38,9 +52,25 @@ export default {
     });
   },
   async updateGenre(genreId, data) {
-    return prisma.genre.update({ where: { genreId }, data });
+    return prisma.genre.update({
+      where: { genreId },
+      data,
+      include: {
+        bookGenres: {
+          include: {
+            book: {
+              include: {
+                bookAuthors: { include: { author: true } },
+                checkouts: { include: { user: true } },
+              },
+            },
+          },
+        },
+      },
+    });
   },
   async deleteGenre(genreId) {
-    return prisma.genre.delete({ where: { genreId } });
+    await prisma.bookGenre.deleteMany({ where: { genreId } });
+    await prisma.genre.delete({ where: { genreId } });
   },
 };

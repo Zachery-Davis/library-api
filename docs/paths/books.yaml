@@ -26,6 +26,14 @@ get:
             type: array
             items:
               $ref: ../components/schemas/book.yaml
+    '400':
+      $ref: ../components/responses/badRequest.yaml
+    '401':
+      $ref: ../components/responses/unauthorized.yaml
+    '403':
+      $ref: ../components/responses/forbidden.yaml
+    '500':
+      $ref: ../components/responses/internalServerError.yaml
 
 post:
   summary: Create a new book
@@ -51,55 +59,13 @@ post:
         application/json:
           schema:
             $ref: ../components/schemas/book.yaml
-
-put:
-  summary: Update an existing book
-  tags:
-    - Books
-  parameters:
-    - name: bookId
-      in: path
-      required: true
-      description: The ID of the book to update
-      schema:
-        type: integer
-        example: 1
-  requestBody:
-    required: true
-    content:
-      application/json:
-        schema:
-          type: object
-          properties:
-            title:
-              type: string
-              example: The Old Man and The Sea
-            author:
-              type: string
-              example: Ernest Hemingway
-  responses:
-    '200':
-      description: Book updated
-      content:
-        application/json:
-          schema:
-            $ref: ../components/schemas/book.yaml
-    '404':
-      description: Book not found
-
-delete:
-  summary: Delete a book
-  tags:
-    - Books
-  parameters:
-    - name: bookId
-      in: path
-      required: true
-      description: ID of the book to delete
-      schema:
-        type: integer
-  responses:
-    '204':
-      description: Book deleted successfully
-    '404':
-      description: Book not found
+    '400':
+      $ref: ../components/responses/badRequest.yaml
+    '401':
+      $ref: ../components/responses/unauthorized.yaml
+    '403':
+      $ref: ../components/responses/forbidden.yaml
+    '409':
+      $ref: ../components/responses/conflict.yaml
+    '500':
+      $ref: ../components/responses/internalServerError.yaml

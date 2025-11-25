@@ -3,17 +3,22 @@ import morgan from 'morgan';
 import cors from 'cors';
 import swagger from 'swagger-ui-express';
 import YAML from 'yamljs';
-import bookRoutes from './routes/bookRoutes.js';
-import authRoutes from './routes/authRoutes.js';
 import authorRoutes from './routes/authorRoutes.js';
+import authRoutes from './routes/authRoutes.js';
+import bookRoutes from './routes/bookRoutes.js';
+import checkoutRoutes from './routes/checkoutRoutes.js';
 import genreRoutes from './routes/genreRoutes.js';
 import userRoutes from './routes/userRoutes.js';
-import checkoutRoutes from './routes/checkoutRoutes.js';
-
-
 
 const app = express();
 const PORT = process.env.PORT || 3000;
+
+// Check JWT_SECRET before starting the server
+if (!process.env.JWT_SECRET) {
+  console.error('JWT_SECRET is not set in environment variables.');
+  process.exit(1);
+}
+
 app.use(
   cors({
     origin: ['https://library-api-uo21.onrender.com', 'http://localhost:3000'],
@@ -30,12 +35,11 @@ app.get('/health', (req, res) => {
 });
 
 app.use('/auth', authRoutes);
-
-app.use('/books', bookRoutes);
 app.use('/authors', authorRoutes);
+app.use('/books', bookRoutes);
+app.use('/checkouts', checkoutRoutes);
 app.use('/genres', genreRoutes);
 app.use('/users', userRoutes);
-app.use('/checkouts', checkoutRoutes);
 
 app.use((req, res, next) => {
   res.status(404).json({ error: 'Not found' });

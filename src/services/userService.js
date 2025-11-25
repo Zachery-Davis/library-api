@@ -18,6 +18,6 @@ export default {
   },
 
   async deleteUser(id) {
-    return userRepo.deleteUser(Number(id));
+    await userRepo.deleteUser(Number(id));
   },
 };

@@ -55,7 +55,6 @@ export default {
   },
 
   async deleteCheckout(id) {
-    return checkoutRepo.deleteCheckout(Number(id));
+    await checkoutRepo.deleteCheckout(Number(id));
   },
 };
-

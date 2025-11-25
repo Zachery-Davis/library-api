@@ -9,7 +9,9 @@ export const register = async (req, res) => {
 
     // Check required fields
     if (!email || !password || !fullName) {
-      return res.status(400).json({ error: 'Email, password, and fullName are required.' });
+      return res
+        .status(400)
+        .json({ error: 'Email, password, and fullName are required.' });
     }
 
     // Check if user already exists
@@ -58,7 +60,9 @@ export const login = async (req, res) => {
 
     // Input validation
     if (!email || !password) {
-      return res.status(400).json({ error: 'Email and password are required.' });
+      return res
+        .status(400)
+        .json({ error: 'Email and password are required.' });
     }
 
     // Find user
@@ -86,7 +90,7 @@ export const login = async (req, res) => {
         status: user.status,
       },
       process.env.JWT_SECRET,
-      { expiresIn: '1d' }
+      { expiresIn: '1d' },
     );
 
     return res.json({

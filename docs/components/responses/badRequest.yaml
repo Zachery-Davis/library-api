@@ -1,0 +1,9 @@
+description: Bad request
+content:
+  application/json:
+    schema:
+      $ref: ../schemas/ValidationError.yaml
+    examples:
+      BadRequest:
+        value:
+          error: 'Bad request'

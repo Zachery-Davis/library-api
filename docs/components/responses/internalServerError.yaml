@@ -1,0 +1,9 @@
+description: Internal server error
+content:
+  application/json:
+    schema:
+      $ref: ../schemas/ValidationError.yaml
+    examples:
+      InternalServerError:
+        value:
+          error: 'Internal server error'

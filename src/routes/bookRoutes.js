@@ -4,36 +4,33 @@ import { validateBook } from '../middleware/bookValidator.js';
 
 import {
   authenticateToken,
-  requireRole
+  requireRole,
 } from '../middleware/authMiddleware.js';
 
 const router = express.Router();
 
-
 router.get('/', bookController.getBooks);
-router.post('/', validateBook, bookController.createBook);
 router.get('/:id', bookController.getBook);
-router.put('/:id', validateBook, bookController.updateBook);
-router.delete('/:id', bookController.deleteBook);
 
-router.post('/',
+router.post(
+  '/',
   authenticateToken,
   requireRole('librarian'),
-  bookValidator,
-  bookController.createBook
+  validateBook,
+  bookController.createBook,
 );
-
-router.put('/:id',
+router.put(
+  '/:id',
   authenticateToken,
   requireRole('librarian'),
-  bookValidator,
-  bookController.updateBook
+  validateBook,
+  bookController.updateBook,
 );
-
-router.delete('/:id',
+router.delete(
+  '/:id',
   authenticateToken,
   requireRole('librarian'),
-  bookController.deleteBook
+  bookController.deleteBook,
 );
 
 export default router;

@@ -1,5 +1,6 @@
 import 'dotenv/config';
 import prisma from '../src/config/db.js';
+import bcrypt from 'bcrypt';
 
 async function main() {
   await prisma.$executeRawUnsafe(`
@@ -8,10 +9,12 @@ async function main() {
     RESTART IDENTITY CASCADE;
   `);
 
+  const hashedPassword = await bcrypt.hash('securepassword', 10);
+
   const librarian = await prisma.user.create({
     data: {
       email: 'librarian@example.com',
-      password: 'securepassword',
+      password: hashedPassword,
       fullName: 'Libby Rarian',
       role: 'librarian',
       status: 'active',
@@ -21,7 +24,7 @@ async function main() {
   const member = await prisma.user.create({
     data: {
       email: 'member@example.com',
-      password: 'securepassword',
+      password: hashedPassword,
       fullName: 'Manny Member',
       role: 'member',
       status: 'active',

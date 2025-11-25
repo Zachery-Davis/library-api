@@ -2,7 +2,18 @@ import prisma from '../config/db.js';
 
 export default {
   async createCheckout(data) {
-    return prisma.checkout.create({ data });
+    return prisma.checkout.create({
+      data,
+      include: {
+        user: true,
+        book: {
+          include: {
+            bookAuthors: { include: { author: true } },
+            bookGenres: { include: { genre: true } },
+          },
+        },
+      },
+    });
   },
   async getCheckoutById(checkoutId) {
     return prisma.checkout.findUnique({
@@ -32,9 +43,21 @@ export default {
     });
   },
   async updateCheckout(checkoutId, data) {
-    return prisma.checkout.update({ where: { checkoutId }, data });
+    return prisma.checkout.update({
+      where: { checkoutId },
+      data,
+      include: {
+        user: true,
+        book: {
+          include: {
+            bookAuthors: { include: { author: true } },
+            bookGenres: { include: { genre: true } },
+          },
+        },
+      },
+    });
   },
   async deleteCheckout(checkoutId) {
-    return prisma.checkout.delete({ where: { checkoutId } });
+    await prisma.checkout.delete({ where: { checkoutId } });
   },
 };

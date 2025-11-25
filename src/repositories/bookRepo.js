@@ -21,12 +21,30 @@ export default {
     });
   },
   async createBook(data) {
-    return await prisma.book.create({ data });
+    return await prisma.book.create({
+      data,
+      include: {
+        bookAuthors: { include: { author: true } },
+        bookGenres: { include: { genre: true } },
+        checkouts: { include: { user: true } },
+      },
+    });
   },
   async updateBook(bookId, data) {
-    return await prisma.book.update({ where: { bookId }, data });
+    return await prisma.book.update({
+      where: { bookId },
+      data,
+      include: {
+        bookAuthors: { include: { author: true } },
+        bookGenres: { include: { genre: true } },
+        checkouts: { include: { user: true } },
+      },
+    });
   },
   async removeBook(bookId) {
-    return await prisma.book.delete({ where: { bookId } });
+    await prisma.bookAuthor.deleteMany({ where: { bookId } });
+    await prisma.bookGenre.deleteMany({ where: { bookId } });
+    await prisma.checkout.deleteMany({ where: { bookId } });
+    await prisma.book.delete({ where: { bookId } });
   },
 };

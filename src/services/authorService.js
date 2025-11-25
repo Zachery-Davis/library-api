@@ -18,6 +18,6 @@ export default {
   },
 
   async deleteAuthor(id) {
-    return authorRepo.deleteAuthor(Number(id));
+    await authorRepo.deleteAuthor(Number(id));
   },
 };
