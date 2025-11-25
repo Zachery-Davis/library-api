@@ -11,9 +11,17 @@ import {
 
 const router = express.Router();
 
+const assignCheckoutUser = (req, res, next) => {
+  if (req.user.role !== 'librarian') {
+    req.body.userId = req.user.userId;
+  }
+  next();
+};
+
 router.post('/',
   authenticateToken,
   requireActiveUser,
+  assignCheckoutUser,
   validateCheckout,
   checkoutController.createCheckout
 );

@@ -32,13 +32,36 @@ export const requireRole = (role) => {
 };
 
 
-export const requireSelfOrAdmin = (req, res, next) => {
-  const targetUserId = parseInt(req.params.id, 10);
+export const requireSelfOrAdmin = async (req, res, next) => {
+  try {
+    if (req.user?.role === 'librarian') return next(); // admins bypass
 
-  if (req.user.role === 'librarian') return next(); // admins bypass
-  if (req.user.userId === targetUserId) return next(); // editing self
+    const targetId = parseInt(req.params.id, 10);
+    if (Number.isNaN(targetId)) {
+      return res.status(400).json({ error: 'Invalid id parameter' });
+    }
 
-  return res.status(403).json({ error: 'Forbidden — cannot edit other users' });
+    // For checkout routes, verify ownership via the checkout record
+    if (req.baseUrl.startsWith('/checkouts')) {
+      const checkout = await prisma.checkout.findUnique({
+        where: { checkoutId: targetId },
+        select: { userId: true },
+      });
+
+      if (!checkout) return res.status(404).json({ error: 'Checkout not found' });
+      if (checkout.userId === req.user.userId) return next();
+
+      return res.status(403).json({ error: 'Forbidden — cannot access other users checkouts' });
+    }
+
+    // For user routes, compare param against the authenticated user
+    if (req.user.userId === targetId) return next();
+
+    return res.status(403).json({ error: 'Forbidden — cannot edit other users' });
+  } catch (err) {
+    console.error('Ownership check failed:', err);
+    return res.status(500).json({ error: 'Internal server error' });
+  }
 };
 
 
