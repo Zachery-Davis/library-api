@@ -1,22 +1,7 @@
 get:
-  summary: List all books by author
+  summary: List all checkouts
   tags:
-    - Books
-  parameters:
-    - name: author
-      in: query
-      required: false
-      description: Filter books by author
-      schema:
-        type: string
-        example: Ernest Hemingway
-    - name: limit
-      in: query
-      required: false
-      description: Limit the number of books returned
-      schema:
-        type: integer
-        example: 10
+    - Checkouts
   responses:
     '200':
       description: OK
@@ -25,9 +10,7 @@ get:
           schema:
             type: array
             items:
-              $ref: ../components/schemas/book.yaml
-    '400':
-      $ref: ../components/responses/badRequest.yaml
+              $ref: ../components/schemas/checkout.yaml
     '401':
       $ref: ../components/responses/unauthorized.yaml
     '403':
@@ -36,9 +19,9 @@ get:
       $ref: ../components/responses/internalServerError.yaml
 
 post:
-  summary: Create a new book
+  summary: Create a new checkout
   tags:
-    - Books
+    - Checkouts
   requestBody:
     required: true
     content:
@@ -46,25 +29,36 @@ post:
         schema:
           type: object
           properties:
-            title:
+            userId:
+              type: integer
+              example: 5
+            bookId:
+              type: integer
+              example: 12
+            checkoutDate:
               type: string
-              example: The Old Man and The Sea
-            author:
+              format: date
+              example: '2024-01-15'
+            returnDate:
               type: string
-              example: Ernest Hemingway
+              format: date
+              nullable: true
+              example: '2024-02-01'
   responses:
     '201':
-      description: Book created
+      description: Checkout created
       content:
         application/json:
           schema:
-            $ref: ../components/schemas/book.yaml
+            $ref: ../components/schemas/checkout.yaml
     '400':
       $ref: ../components/responses/badRequest.yaml
     '401':
       $ref: ../components/responses/unauthorized.yaml
     '403':
       $ref: ../components/responses/forbidden.yaml
+    '404':
+      $ref: ../components/responses/notFound.yaml
     '409':
       $ref: ../components/responses/conflict.yaml
     '500':

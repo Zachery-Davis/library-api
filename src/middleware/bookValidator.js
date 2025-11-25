@@ -1,5 +1,5 @@
 import { body } from 'express-validator';
-import { checkValidationResults } from './validationHandler.js';
+import { checkValidationResults } from './errorHandler.js';
 
 export const validateBook = [
   body('title')
@@ -8,11 +8,9 @@ export const validateBook = [
     .notEmpty()
     .withMessage('Title is required'),
 
-  body('author')
-    .isString()
-    .withMessage('Author must be a string')
-    .notEmpty()
-    .withMessage('Author is required'),
+  body('author').optional().isString().withMessage('Author must be a string'),
+
+  body('authors').optional().isArray().withMessage('Authors must be an array'),
 
   body('description')
     .optional()
@@ -20,9 +18,17 @@ export const validateBook = [
     .withMessage('Description must be a string'),
 
   body('genre').optional().isString().withMessage('Genre must be a string'),
+  body('genres').optional().isArray().withMessage('Genres must be an array'),
 
   body('published')
     .optional()
+    .customSanitizer((value) => {
+      const date = new Date(value);
+      if (!isNaN(date.getTime())) {
+        return date.toISOString();
+      }
+      return value;
+    })
     .isISO8601()
     .withMessage('Published must be a valid ISO8601 date'),
 

@@ -2,8 +2,10 @@ type: object
 properties:
   error:
     type: string
-    example: Validation failed
+    example: "Email and password are required."
   details:
     type: array
+    description: Optional list of more-specific errors (may not be present)
     items:
       type: string
+      example: "fullName is required"

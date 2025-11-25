@@ -1,22 +1,7 @@
 get:
-  summary: List all books by author
+  summary: List all users
   tags:
-    - Books
-  parameters:
-    - name: author
-      in: query
-      required: false
-      description: Filter books by author
-      schema:
-        type: string
-        example: Ernest Hemingway
-    - name: limit
-      in: query
-      required: false
-      description: Limit the number of books returned
-      schema:
-        type: integer
-        example: 10
+    - Users
   responses:
     '200':
       description: OK
@@ -25,9 +10,7 @@ get:
           schema:
             type: array
             items:
-              $ref: ../components/schemas/book.yaml
-    '400':
-      $ref: ../components/responses/badRequest.yaml
+              $ref: ../components/schemas/user.yaml
     '401':
       $ref: ../components/responses/unauthorized.yaml
     '403':
@@ -36,9 +19,9 @@ get:
       $ref: ../components/responses/internalServerError.yaml
 
 post:
-  summary: Create a new book
+  summary: Create a new user
   tags:
-    - Books
+    - Users
   requestBody:
     required: true
     content:
@@ -46,19 +29,19 @@ post:
         schema:
           type: object
           properties:
-            title:
+            name:
               type: string
-              example: The Old Man and The Sea
-            author:
+              example: John Doe
+            email:
               type: string
-              example: Ernest Hemingway
+              example: johndoe@example.com
   responses:
     '201':
-      description: Book created
+      description: User created
       content:
         application/json:
           schema:
-            $ref: ../components/schemas/book.yaml
+            $ref: ../components/schemas/user.yaml
     '400':
       $ref: ../components/responses/badRequest.yaml
     '401':

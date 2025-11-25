@@ -1,0 +1,9 @@
+description: Unauthorized
+content:
+  application/json:
+    schema:
+      $ref: ../schemas/ValidationError.yaml
+    examples:
+      Unauthorized:
+        value:
+          error: 'Unauthorized'

@@ -7,9 +7,37 @@ servers:
     description: Local development server
   - url: https://library-api-uo21.onrender.com
     description: Production server on render
+  - url: https://library-api-dj3n.onrender.com
+    description: Production server on render
 tags:
   - name: Books
     description: Book-related endpoints
+  - name: Authors
+    description: Author-related endpoints
+  - name: Users
+    description: User-related endpoints
+  - name: Genres
+    description: Genre-related endpoints
+  - name: Checkouts
+    description: Checkout-related endpoints
 paths:
   /books:
     $ref: paths/books.yaml
+  /books/{bookId}:
+    $ref: paths/booksByID.yaml
+  /authors:
+    $ref: paths/authors.yaml
+  /authors/{authorId}:
+    $ref: paths/authorsByID.yaml
+  /users:
+    $ref: paths/users.yaml
+  /users/{userId}:
+    $ref: paths/usersByID.yaml
+  /genres:
+    $ref: paths/genres.yaml
+  /genres/{genreId}:
+    $ref: paths/genresByID.yaml
+  /checkouts:
+    $ref: paths/checkouts.yaml
+  /checkouts/{checkoutId}:
+    $ref: paths/checkoutsByID.yaml

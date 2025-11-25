@@ -1,0 +1,9 @@
+description: Resource not found
+content:
+  application/json:
+    schema:
+      $ref: ../schemas/ValidationError.yaml
+    examples:
+      NotFound:
+        value:
+          error: 'Resource not found'

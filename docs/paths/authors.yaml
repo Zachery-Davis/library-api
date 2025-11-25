@@ -1,0 +1,47 @@
+get:
+  summary: List all authors
+  tags:
+    - Authors
+  responses:
+    '200':
+      description: OK
+      content:
+        application/json:
+          schema:
+            type: array
+            items:
+              $ref: ../components/schemas/author.yaml
+    '500':
+      $ref: ../components/responses/internalServerError.yaml
+
+post:
+  summary: Create a new author
+  tags:
+    - Authors
+  requestBody:
+    required: true
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            name:
+              type: string
+              example: Ernest Hemingway
+  responses:
+    '201':
+      description: Author created
+      content:
+        application/json:
+          schema:
+            $ref: ../components/schemas/author.yaml
+    '400':
+      $ref: ../components/responses/badRequest.yaml
+    '401':
+      $ref: ../components/responses/unauthorized.yaml
+    '403':
+      $ref: ../components/responses/forbidden.yaml
+    '409':
+      $ref: ../components/responses/conflict.yaml
+    '500':
+      $ref: ../components/responses/internalServerError.yaml

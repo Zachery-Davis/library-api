@@ -1,6 +1,6 @@
 import express from 'express';
-import * as bookController from '../controllers/bookController.js';
-import { validateBook } from '../middleware/bookValidator.js';
+import * as authorController from '../controllers/authorController.js';
+import { validateAuthor } from '../middleware/authorValidator.js';
 
 import {
   authenticateToken,
@@ -9,28 +9,30 @@ import {
 
 const router = express.Router();
 
-router.get('/', bookController.getBooks);
-router.get('/:id', bookController.getBook);
+router.get('/', authorController.getAuthors);
+router.get('/:id', authorController.getAuthor);
 
 router.post(
   '/',
   authenticateToken,
   requireRole('librarian'),
-  validateBook,
-  bookController.createBook,
+  validateAuthor,
+  authorController.createAuthor,
 );
+
 router.put(
   '/:id',
   authenticateToken,
   requireRole('librarian'),
-  validateBook,
-  bookController.updateBook,
+  validateAuthor,
+  authorController.updateAuthor,
 );
+
 router.delete(
   '/:id',
   authenticateToken,
   requireRole('librarian'),
-  bookController.deleteBook,
+  authorController.deleteAuthor,
 );
 
 export default router;

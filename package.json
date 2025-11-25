@@ -5,9 +5,11 @@
   "main": "src/server.js",
   "scripts": {
     "dev": "node --env-file=.env --watch src/server.js",
-    "start": "node src/server.js",
+    "start": "node --env-file=.env src/server.js",
+    "test": "node prisma/seed.js && node --env-file=.env src/server.js",
     "migrate:dev": "npx prisma migrate dev",
     "migrate:deploy": "npx prisma migrate deploy",
+    "seed": "node prisma/seed.js",
     "openapi": "npx @redocly/cli bundle docs/openapi.yaml -o public/bundled.yaml"
   },
   "keywords": [
@@ -23,9 +25,11 @@
   "type": "module",
   "dependencies": {
     "@prisma/client": "^6.18.0",
+    "bcrypt": "^6.0.0",
     "cors": "^2.8.5",
     "express": "^5.1.0",
     "express-validator": "^7.3.0",
+    "jsonwebtoken": "^9.0.2",
     "morgan": "^1.10.1",
     "swagger-ui-express": "^5.0.1",
     "yamljs": "^0.3.0"

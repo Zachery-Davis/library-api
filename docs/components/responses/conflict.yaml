@@ -1,0 +1,9 @@
+description: Conflict
+content:
+  application/json:
+    schema:
+      $ref: ../schemas/ValidationError.yaml
+    examples:
+      Conflict:
+        value:
+          error: 'Conflict'

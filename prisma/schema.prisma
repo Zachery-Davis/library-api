@@ -5,24 +5,116 @@
 // Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
 
 generator client {
-  provider = "prisma-client-js"
-  output   = "../src/generated/prisma"
+ provider = "prisma-client-js"
+ output = "../src/generated/prisma"
 }
 
 datasource db {
-  provider = "postgresql"
-  url      = env("DATABASE_URL")
+ provider = "postgresql"
+ url = env("DATABASE_URL")
+}
+
+enum UserRole {
+ member
+ librarian
+}
+
+enum UserStatus {
+ active
+ banned
+}
+
+enum CheckOutStatus {
+ open
+ overdue
+ closed
+}
+
+model User {
+ userId Int @id @default(autoincrement()) @map("user_id")
+ email String @unique @db.VarChar(255)
+ password String @db.VarChar(255)
+ fullName String @db.VarChar(100) @map("full_name")
+ role UserRole @default(member)
+ createdAt DateTime @default(now()) @map("created_at")
+ updatedAt DateTime @updatedAt @map("updated_at")
+ status UserStatus @default(active)
+ checkouts Checkout[] @relation("UserCheckOuts")
+ @@map("users")
+ @@index([email])
+}
+
+model Checkout {
+ checkoutId Int @id @default(autoincrement()) @map("checkout_id")
+ userId Int @map("user_id")
+ bookId Int @map("book_id")
+ checkedOutAt DateTime @default(now()) @map("checked_out_at")
+ dueAt DateTime @map("due_at")
+ returnedAt DateTime? @map("returned_at")
+ status CheckOutStatus @default(open)
+ user User @relation(fields: [userId], references: [userId], onDelete: Restrict, name: "UserCheckOuts")
+ book Book @relation(fields: [bookId], references: [bookId], onDelete: Restrict, name: "BookCheckOuts")
+ @@map("checkouts")
+ @@index([userId])
+ @@index([bookId])
 }
 
 model Book {
-  id Int @id @default(autoincrement())
-  title String
-  author String
-  description String?
-  genre String?
-  published DateTime?
-  isbn String?  @unique
-  enteredAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-  @@map("books")
+ bookId Int @id @default(autoincrement()) @map("book_id")
+ isbn String @unique @db.VarChar(20)
+ title String @db.VarChar(255)
+ published DateTime
+ copiesTotal Int @map("copies_total")
+ copiesAvailable Int @map("copies_available")
+ description String? @db.VarChar(1000)
+ createdAt DateTime @default(now()) @map("created_at")
+ updatedAt DateTime @updatedAt @map("updated_at")
+ checkouts Checkout[] @relation("BookCheckOuts")
+ bookAuthors BookAuthor[]
+ bookGenres BookGenre[]
+ @@map("books")
+ @@index([isbn])
+}
+
+model Author {
+ authorId Int @id @default(autoincrement()) @map("author_id")
+ firstName String @db.VarChar(50) @map("first_name")
+ lastName String @db.VarChar(50) @map("last_name")
+ bio String? @db.VarChar(1000)
+ bookAuthors BookAuthor[]
+ @@map("authors")
+ @@index([lastName])
+}
+
+model Genre {
+ genreId Int @id @default(autoincrement()) @map("genre_id")
+ name String @unique @db.VarChar(50)
+ description String? @db.VarChar(255)
+ bookGenres BookGenre[]
+ @@map("genres")
+}
+
+model BookAuthor {
+ bookAuthorId Int @id @default(autoincrement()) @map("book_author_id")
+ bookId Int @map("book_id")
+ authorId Int @map("author_id")
+ role String @db.VarChar(50)
+ book Book @relation(fields: [bookId], references: [bookId], onDelete: Restrict)
+ author Author @relation(fields: [authorId], references: [authorId], onDelete: Restrict)
+ @@map("book_authors")
+ @@unique([bookId, authorId, role])
+ @@index([bookId])
+ @@index([authorId])
+}
+
+model BookGenre {
+ bookGenreId Int @id @default(autoincrement()) @map("book_genre_id")
+ bookId Int @map("book_id")
+ genreId Int @map("genre_id")
+ book Book @relation(fields: [bookId], references: [bookId], onDelete: Restrict)
+ genre Genre @relation(fields: [genreId], references: [genreId], onDelete: Restrict)
+ @@map("book_genres")
+ @@unique([bookId, genreId])
+ @@index([bookId])
+ @@index([genreId])
 }

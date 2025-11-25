@@ -1,0 +1,105 @@
+type: object
+properties:
+  userId:
+    type: integer
+    readOnly: true
+    example: 5
+  email:
+    type: string
+    example: "johndoe@example.com"
+  fullName:
+    type: string
+    example: "John Doe"
+  role:
+    type: string
+    enum:
+      - member
+      - librarian
+    example: "member"
+  status:
+    type: string
+    enum:
+      - active
+      - banned
+    example: "active"
+  createdAt:
+    type: string
+    format: date-time
+    example: "2024-01-01T12:00:00.000Z"
+  updatedAt:
+    type: string
+    format: date-time
+    example: "2024-02-01T12:00:00.000Z"
+  checkouts:
+    type: array
+    items:
+      type: object
+      properties:
+        checkoutId:
+          type: integer
+          example: 101
+        book:
+          type: object
+          properties:
+            bookId:
+              type: integer
+              example: 42
+            isbn:
+              type: string
+              example: "978-0142437230"
+            title:
+              type: string
+              example: "The Old Man and The Sea"
+            bookAuthors:
+              type: array
+              items:
+                type: object
+                properties:
+                  bookAuthorId:
+                    type: integer
+                    example: 12
+                  author:
+                    type: object
+                    properties:
+                      authorId:
+                        type: integer
+                        example: 3
+                      firstName:
+                        type: string
+                        example: "Ernest"
+                      lastName:
+                        type: string
+                        example: "Hemingway"
+            bookGenres:
+              type: array
+              items:
+                type: object
+                properties:
+                  bookGenreId:
+                    type: integer
+                    example: 7
+                  genre:
+                    type: object
+                    properties:
+                      genreId:
+                        type: integer
+                        example: 2
+                      name:
+                        type: string
+                        example: "Fiction"
+        checkedOutAt:
+          type: string
+          format: date-time
+          example: "2024-01-15T10:00:00.000Z"
+        dueAt:
+          type: string
+          format: date-time
+          example: "2024-02-15T10:00:00.000Z"
+        returnedAt:
+          type: string
+          format: date-time
+          nullable: true
+          example: null
+        status:
+          type: string
+          example: "open"

@@ -1,0 +1,73 @@
+type: object
+properties:
+  genreId:
+    type: integer
+    readOnly: true
+    example: 2
+  name:
+    type: string
+    example: "Fiction"
+  description:
+    type: string
+    nullable: true
+    example: "Narrative literary works of prose."
+  bookGenres:
+    type: array
+    items:
+      type: object
+      properties:
+        bookGenreId:
+          type: integer
+          example: 7
+        book:
+          type: object
+          properties:
+            bookId:
+              type: integer
+              example: 42
+            isbn:
+              type: string
+              example: "978-0142437230"
+            title:
+              type: string
+              example: "The Old Man and The Sea"
+            bookAuthors:
+              type: array
+              items:
+                type: object
+                properties:
+                  bookAuthorId:
+                    type: integer
+                    example: 12
+                  author:
+                    type: object
+                    properties:
+                      authorId:
+                        type: integer
+                        example: 3
+                      firstName:
+                        type: string
+                        example: "Ernest"
+                      lastName:
+                        type: string
+                        example: "Hemingway"
+            checkouts:
+              type: array
+              items:
+                type: object
+                properties:
+                  checkoutId:
+                    type: integer
+                    example: 101
+                  user:
+                    type: object
+                    properties:
+                      userId:
+                        type: integer
+                        example: 5
+                      email:
+                        type: string
+                        example: "johndoe@example.com"
+                      fullName:
+                        type: string
+                        example: "John Doe"

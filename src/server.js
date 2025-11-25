@@ -3,14 +3,30 @@ import morgan from 'morgan';
 import cors from 'cors';
 import swagger from 'swagger-ui-express';
 import YAML from 'yamljs';
+import authorRoutes from './routes/authorRoutes.js';
+import authRoutes from './routes/authRoutes.js';
 import bookRoutes from './routes/bookRoutes.js';
+import checkoutRoutes from './routes/checkoutRoutes.js';
+import genreRoutes from './routes/genreRoutes.js';
+import userRoutes from './routes/userRoutes.js';
 
 const app = express();
 const PORT = process.env.PORT || 3000;
+
+// Check JWT_SECRET before starting the server
+if (!process.env.JWT_SECRET) {
+  console.error('JWT_SECRET is not set in environment variables.');
+  process.exit(1);
+}
+
 app.use(
   cors({
-    origin: 'https://library-api-mz6y.onrender.com',
-  })
+    origin: [
+      'https://library-api-uo21.onrender.com',
+      'https://library-api-dj3n.onrender.com',
+      'http://localhost:3000',
+    ],
+  }),
 );
 app.use(express.json());
 app.use(morgan('tiny'));
@@ -22,7 +38,12 @@ app.get('/health', (req, res) => {
   res.status(200).json({ status: 'ok' });
 });
 
+app.use('/auth', authRoutes);
+app.use('/authors', authorRoutes);
 app.use('/books', bookRoutes);
+app.use('/checkouts', checkoutRoutes);
+app.use('/genres', genreRoutes);
+app.use('/users', userRoutes);
 
 app.use((req, res, next) => {
   res.status(404).json({ error: 'Not found' });
@@ -37,5 +58,5 @@ app.use((err, req, res, next) => {
 });
 
 app.listen(PORT, () => {
-  console.log(`Server running on port ${PORT}`);
+  console.log(`Server running on port http://localhost:${PORT}`);
 });

@@ -5,15 +5,25 @@ info:
 servers:
   - url: http://localhost:3000
     description: Local development server
-  - url: https://library-api-mz6y.onrender.com
+  - url: https://library-api-uo21.onrender.com
+    description: Production server on render
+  - url: https://library-api-dj3n.onrender.com
     description: Production server on render
 tags:
   - name: Books
     description: Book-related endpoints
+  - name: Authors
+    description: Author-related endpoints
+  - name: Users
+    description: User-related endpoints
+  - name: Genres
+    description: Genre-related endpoints
+  - name: Checkouts
+    description: Checkout-related endpoints
 paths:
   /books:
     get:
-      summary: List all books
+      summary: List all books by author
       tags:
         - Books
       parameters:
@@ -40,6 +50,14 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/book'
+        '400':
+          $ref: '#/components/responses/badRequest'
+        '401':
+          $ref: '#/components/responses/unauthorized'
+        '403':
+          $ref: '#/components/responses/forbidden'
+        '500':
+          $ref: '#/components/responses/internalServerError'
     post:
       summary: Create a new book
       tags:
@@ -49,42 +67,1363 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/book'
+              type: object
+              properties:
+                title:
+                  type: string
+                  example: The Old Man and The Sea
+                author:
+                  type: string
+                  example: Ernest Hemingway
       responses:
         '201':
-          description: Book created successfully
+          description: Book created
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/book'
         '400':
-          description: Invalid input
+          $ref: '#/components/responses/badRequest'
+        '401':
+          $ref: '#/components/responses/unauthorized'
+        '403':
+          $ref: '#/components/responses/forbidden'
+        '409':
+          $ref: '#/components/responses/conflict'
+        '500':
+          $ref: '#/components/responses/internalServerError'
+  /books/{bookId}:
+    get:
+      summary: Get book by ID
+      tags:
+        - Books
+      parameters:
+        - name: bookId
+          in: path
+          required: true
+          description: ID of the book to retrieve
+          schema:
+            type: integer
+            example: 1
+      responses:
+        '200':
+          description: OK
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ValidationError'
+                $ref: '#/components/schemas/book'
+        '400':
+          $ref: '#/components/responses/badRequest'
+        '401':
+          $ref: '#/components/responses/unauthorized'
+        '403':
+          $ref: '#/components/responses/forbidden'
+        '404':
+          $ref: '#/components/responses/notFound'
+        '500':
+          $ref: '#/components/responses/internalServerError'
+    put:
+      summary: Update an existing book
+      tags:
+        - Books
+      parameters:
+        - name: bookId
+          in: path
+          required: true
+          description: The ID of the book to update
+          schema:
+            type: integer
+            example: 1
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                title:
+                  type: string
+                  example: The Old Man and The Sea
+                author:
+                  type: string
+                  example: Ernest Hemingway
+      responses:
+        '200':
+          description: Book updated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/book'
+        '400':
+          $ref: '#/components/responses/badRequest'
+        '401':
+          $ref: '#/components/responses/unauthorized'
+        '403':
+          $ref: '#/components/responses/forbidden'
+        '404':
+          $ref: '#/components/responses/notFound'
+        '409':
+          $ref: '#/components/responses/conflict'
+        '500':
+          $ref: '#/components/responses/internalServerError'
+    delete:
+      summary: Delete a book
+      tags:
+        - Books
+      parameters:
+        - name: bookId
+          in: path
+          required: true
+          description: ID of the book to delete
+          schema:
+            type: integer
+      responses:
+        '204':
+          description: Book deleted successfully
+        '400':
+          $ref: '#/components/responses/badRequest'
+        '401':
+          $ref: '#/components/responses/unauthorized'
+        '403':
+          $ref: '#/components/responses/forbidden'
+        '404':
+          $ref: '#/components/responses/notFound'
+        '409':
+          $ref: '#/components/responses/conflict'
+        '500':
+          $ref: '#/components/responses/internalServerError'
+  /authors:
+    get:
+      summary: List all authors
+      tags:
+        - Authors
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/author'
+        '500':
+          $ref: '#/components/responses/internalServerError'
+    post:
+      summary: Create a new author
+      tags:
+        - Authors
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                  example: Ernest Hemingway
+      responses:
+        '201':
+          description: Author created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/author'
+        '400':
+          $ref: '#/components/responses/badRequest'
+        '401':
+          $ref: '#/components/responses/unauthorized'
+        '403':
+          $ref: '#/components/responses/forbidden'
+        '409':
+          $ref: '#/components/responses/conflict'
+        '500':
+          $ref: '#/components/responses/internalServerError'
+  /authors/{authorId}:
+    get:
+      summary: Get an author by ID
+      tags:
+        - Authors
+      parameters:
+        - name: authorId
+          in: path
+          required: true
+          description: ID of the author to retrieve
+          schema:
+            type: integer
+            example: 1
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/author'
+        '400':
+          $ref: '#/components/responses/badRequest'
+        '401':
+          $ref: '#/components/responses/unauthorized'
+        '403':
+          $ref: '#/components/responses/forbidden'
+        '404':
+          $ref: '#/components/responses/notFound'
+        '500':
+          $ref: '#/components/responses/internalServerError'
+    put:
+      summary: Update an existing author
+      tags:
+        - Authors
+      parameters:
+        - name: authorId
+          in: path
+          required: true
+          description: ID of the author to update
+          schema:
+            type: integer
+            example: 1
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                  example: Ernest Hemingway
+      responses:
+        '200':
+          description: Author updated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/author'
+        '400':
+          $ref: '#/components/responses/badRequest'
+        '401':
+          $ref: '#/components/responses/unauthorized'
+        '403':
+          $ref: '#/components/responses/forbidden'
+        '404':
+          $ref: '#/components/responses/notFound'
+        '409':
+          $ref: '#/components/responses/conflict'
+        '500':
+          $ref: '#/components/responses/internalServerError'
+    delete:
+      summary: Delete an author
+      tags:
+        - Authors
+      parameters:
+        - name: authorId
+          in: path
+          required: true
+          description: ID of the author to delete
+          schema:
+            type: integer
+            example: 1
+      responses:
+        '204':
+          description: Author deleted successfully
+        '400':
+          $ref: '#/components/responses/badRequest'
+        '401':
+          $ref: '#/components/responses/unauthorized'
+        '403':
+          $ref: '#/components/responses/forbidden'
+        '404':
+          $ref: '#/components/responses/notFound'
+        '409':
+          $ref: '#/components/responses/conflict'
+        '500':
+          $ref: '#/components/responses/internalServerError'
+  /users:
+    get:
+      summary: List all users
+      tags:
+        - Users
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/user'
+        '401':
+          $ref: '#/components/responses/unauthorized'
+        '403':
+          $ref: '#/components/responses/forbidden'
+        '500':
+          $ref: '#/components/responses/internalServerError'
+    post:
+      summary: Create a new user
+      tags:
+        - Users
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                  example: John Doe
+                email:
+                  type: string
+                  example: johndoe@example.com
+      responses:
+        '201':
+          description: User created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/user'
+        '400':
+          $ref: '#/components/responses/badRequest'
+        '401':
+          $ref: '#/components/responses/unauthorized'
+        '403':
+          $ref: '#/components/responses/forbidden'
+        '409':
+          $ref: '#/components/responses/conflict'
+        '500':
+          $ref: '#/components/responses/internalServerError'
+  /users/{userId}:
+    get:
+      summary: Get a user by ID
+      tags:
+        - Users
+      parameters:
+        - name: userId
+          in: path
+          required: true
+          description: ID of the user to retrieve
+          schema:
+            type: integer
+            example: 1
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/user'
+        '400':
+          $ref: '#/components/responses/badRequest'
+        '401':
+          $ref: '#/components/responses/unauthorized'
+        '403':
+          $ref: '#/components/responses/forbidden'
+        '404':
+          $ref: '#/components/responses/notFound'
+        '500':
+          $ref: '#/components/responses/internalServerError'
+    put:
+      summary: Update an existing user
+      tags:
+        - Users
+      parameters:
+        - name: userId
+          in: path
+          required: true
+          description: ID of the user to update
+          schema:
+            type: integer
+            example: 1
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                  example: John Doe
+                email:
+                  type: string
+                  example: johndoe@example.com
+      responses:
+        '200':
+          description: User updated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/user'
+        '400':
+          $ref: '#/components/responses/badRequest'
+        '401':
+          $ref: '#/components/responses/unauthorized'
+        '403':
+          $ref: '#/components/responses/forbidden'
+        '404':
+          $ref: '#/components/responses/notFound'
+        '409':
+          $ref: '#/components/responses/conflict'
+        '500':
+          $ref: '#/components/responses/internalServerError'
+    delete:
+      summary: Delete a user
+      tags:
+        - Users
+      parameters:
+        - name: userId
+          in: path
+          required: true
+          description: ID of the user to delete
+          schema:
+            type: integer
+            example: 1
+      responses:
+        '204':
+          description: User deleted successfully
+        '400':
+          $ref: '#/components/responses/badRequest'
+        '401':
+          $ref: '#/components/responses/unauthorized'
+        '403':
+          $ref: '#/components/responses/forbidden'
+        '404':
+          $ref: '#/components/responses/notFound'
+        '409':
+          $ref: '#/components/responses/conflict'
+        '500':
+          $ref: '#/components/responses/internalServerError'
+  /genres:
+    get:
+      summary: List all genres
+      tags:
+        - Genres
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/genre'
+        '500':
+          $ref: '#/components/responses/internalServerError'
+    post:
+      summary: Create a new genre
+      tags:
+        - Genres
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                  example: Fiction
+      responses:
+        '201':
+          description: Genre created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/genre'
+        '400':
+          $ref: '#/components/responses/badRequest'
+        '401':
+          $ref: '#/components/responses/unauthorized'
+        '403':
+          $ref: '#/components/responses/forbidden'
+        '409':
+          $ref: '#/components/responses/conflict'
+        '500':
+          $ref: '#/components/responses/internalServerError'
+  /genres/{genreId}:
+    get:
+      summary: Get a genre by ID
+      tags:
+        - Genres
+      parameters:
+        - name: genreId
+          in: path
+          required: true
+          description: ID of the genre to retrieve
+          schema:
+            type: integer
+            example: 1
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/genre'
+        '400':
+          $ref: '#/components/responses/badRequest'
+        '401':
+          $ref: '#/components/responses/unauthorized'
+        '403':
+          $ref: '#/components/responses/forbidden'
+        '404':
+          $ref: '#/components/responses/notFound'
+        '500':
+          $ref: '#/components/responses/internalServerError'
+    put:
+      summary: Update an existing genre
+      tags:
+        - Genres
+      parameters:
+        - name: genreId
+          in: path
+          required: true
+          description: ID of the genre to update
+          schema:
+            type: integer
+            example: 1
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                  example: Fiction
+      responses:
+        '200':
+          description: Genre updated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/genre'
+        '400':
+          $ref: '#/components/responses/badRequest'
+        '401':
+          $ref: '#/components/responses/unauthorized'
+        '403':
+          $ref: '#/components/responses/forbidden'
+        '404':
+          $ref: '#/components/responses/notFound'
+        '409':
+          $ref: '#/components/responses/conflict'
+        '500':
+          $ref: '#/components/responses/internalServerError'
+    delete:
+      summary: Delete a genre
+      tags:
+        - Genres
+      parameters:
+        - name: genreId
+          in: path
+          required: true
+          description: ID of the genre to delete
+          schema:
+            type: integer
+            example: 1
+      responses:
+        '204':
+          description: Genre deleted successfully
+        '400':
+          $ref: '#/components/responses/badRequest'
+        '401':
+          $ref: '#/components/responses/unauthorized'
+        '403':
+          $ref: '#/components/responses/forbidden'
+        '404':
+          $ref: '#/components/responses/notFound'
+        '409':
+          $ref: '#/components/responses/conflict'
+        '500':
+          $ref: '#/components/responses/internalServerError'
+  /checkouts:
+    get:
+      summary: List all checkouts
+      tags:
+        - Checkouts
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/checkout'
+        '401':
+          $ref: '#/components/responses/unauthorized'
+        '403':
+          $ref: '#/components/responses/forbidden'
+        '500':
+          $ref: '#/components/responses/internalServerError'
+    post:
+      summary: Create a new checkout
+      tags:
+        - Checkouts
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                userId:
+                  type: integer
+                  example: 5
+                bookId:
+                  type: integer
+                  example: 12
+                checkoutDate:
+                  type: string
+                  format: date
+                  example: '2024-01-15'
+                returnDate:
+                  type: string
+                  format: date
+                  nullable: true
+                  example: '2024-02-01'
+      responses:
+        '201':
+          description: Checkout created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/checkout'
+        '400':
+          $ref: '#/components/responses/badRequest'
+        '401':
+          $ref: '#/components/responses/unauthorized'
+        '403':
+          $ref: '#/components/responses/forbidden'
+        '404':
+          $ref: '#/components/responses/notFound'
+        '409':
+          $ref: '#/components/responses/conflict'
+        '500':
+          $ref: '#/components/responses/internalServerError'
+  /checkouts/{checkoutId}:
+    get:
+      summary: Get a checkout by ID
+      tags:
+        - Checkouts
+      parameters:
+        - name: checkoutId
+          in: path
+          required: true
+          description: ID of the checkout to retrieve
+          schema:
+            type: integer
+            example: 1
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/checkout'
+        '400':
+          $ref: '#/components/responses/badRequest'
+        '401':
+          $ref: '#/components/responses/unauthorized'
+        '403':
+          $ref: '#/components/responses/forbidden'
+        '404':
+          $ref: '#/components/responses/notFound'
+        '500':
+          $ref: '#/components/responses/internalServerError'
+    put:
+      summary: Update an existing checkout
+      tags:
+        - Checkouts
+      parameters:
+        - name: checkoutId
+          in: path
+          required: true
+          description: ID of the checkout to update
+          schema:
+            type: integer
+            example: 1
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                userId:
+                  type: integer
+                  example: 5
+                bookId:
+                  type: integer
+                  example: 12
+                checkoutDate:
+                  type: string
+                  format: date
+                  example: '2024-01-15'
+                returnDate:
+                  type: string
+                  format: date
+                  nullable: true
+                  example: '2024-02-01'
+      responses:
+        '200':
+          description: Checkout updated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/checkout'
+        '400':
+          $ref: '#/components/responses/badRequest'
+        '401':
+          $ref: '#/components/responses/unauthorized'
+        '403':
+          $ref: '#/components/responses/forbidden'
+        '404':
+          $ref: '#/components/responses/notFound'
+        '409':
+          $ref: '#/components/responses/conflict'
+        '500':
+          $ref: '#/components/responses/internalServerError'
+    delete:
+      summary: Delete a checkout
+      tags:
+        - Checkouts
+      parameters:
+        - name: checkoutId
+          in: path
+          required: true
+          description: ID of the checkout to delete
+          schema:
+            type: integer
+            example: 1
+      responses:
+        '204':
+          description: Checkout deleted successfully
+        '400':
+          $ref: '#/components/responses/badRequest'
+        '401':
+          $ref: '#/components/responses/unauthorized'
+        '403':
+          $ref: '#/components/responses/forbidden'
+        '404':
+          $ref: '#/components/responses/notFound'
+        '409':
+          $ref: '#/components/responses/conflict'
+        '500':
+          $ref: '#/components/responses/internalServerError'
 components:
   schemas:
     book:
       type: object
       properties:
-        id:
-          readOnly: true
+        bookId:
           type: integer
-          example: 1
+          readOnly: true
+          example: 42
+        isbn:
+          type: string
+          example: 978-0142437230
         title:
           type: string
           example: The Old Man and The Sea
-        author:
+        published:
           type: string
-          example: Ernest Hemingway
+          format: date-time
+          example: '1952-09-01T00:00:00.000Z'
+        copiesTotal:
+          type: integer
+          example: 5
+        copiesAvailable:
+          type: integer
+          example: 2
+        description:
+          type: string
+          nullable: true
+          example: A short novel about an aging fisherman.
+        createdAt:
+          type: string
+          format: date-time
+          example: '2024-01-01T12:00:00.000Z'
+        updatedAt:
+          type: string
+          format: date-time
+          example: '2024-02-01T12:00:00.000Z'
+        authors:
+          type: array
+          description: Array of author objects (flattened by the service)
+          items:
+            type: object
+            properties:
+              authorId:
+                type: integer
+                example: 3
+              firstName:
+                type: string
+                example: Ernest
+              lastName:
+                type: string
+                example: Hemingway
+              bio:
+                type: string
+                nullable: true
+                example: American novelist and short-story writer.
+        genres:
+          type: array
+          items:
+            type: object
+            properties:
+              genreId:
+                type: integer
+                example: 2
+              name:
+                type: string
+                example: Fiction
+              description:
+                type: string
+                nullable: true
+                example: Narrative literary works of prose.
+        checkouts:
+          type: array
+          items:
+            type: object
+            properties:
+              checkoutId:
+                type: integer
+                example: 101
+              user:
+                type: object
+                properties:
+                  userId:
+                    type: integer
+                    example: 5
+                  email:
+                    type: string
+                    example: johndoe@example.com
+                  fullName:
+                    type: string
+                    example: John Doe
+              checkedOutAt:
+                type: string
+                format: date-time
+                example: '2024-01-15T10:00:00.000Z'
+              dueAt:
+                type: string
+                format: date-time
+                example: '2024-02-15T10:00:00.000Z'
+              returnedAt:
+                type: string
+                format: date-time
+                nullable: true
+                example: null
+              status:
+                type: string
+                example: open
     ValidationError:
       type: object
       properties:
         error:
           type: string
-          example: Validation failed
+          example: Email and password are required.
         details:
           type: array
+          description: Optional list of more-specific errors (may not be present)
           items:
             type: string
+            example: fullName is required
+    author:
+      type: object
+      properties:
+        authorId:
+          type: integer
+          readOnly: true
+          example: 3
+        firstName:
+          type: string
+          example: Ernest
+        lastName:
+          type: string
+          example: Hemingway
+        bio:
+          type: string
+          nullable: true
+          example: American novelist and short-story writer.
+        bookAuthors:
+          type: array
+          items:
+            type: object
+            properties:
+              bookAuthorId:
+                type: integer
+                readOnly: true
+                example: 12
+              role:
+                type: string
+                example: primary
+              book:
+                type: object
+                description: Book object included by the repo (kept compact to avoid infinite recursion)
+                properties:
+                  bookId:
+                    type: integer
+                    example: 42
+                  isbn:
+                    type: string
+                    example: 978-0142437230
+                  title:
+                    type: string
+                    example: The Old Man and The Sea
+                  published:
+                    type: string
+                    format: date-time
+                    example: '1952-09-01T00:00:00.000Z'
+                  copiesTotal:
+                    type: integer
+                    example: 5
+                  copiesAvailable:
+                    type: integer
+                    example: 2
+                  description:
+                    type: string
+                    nullable: true
+                    example: A short novel about an aging fisherman.
+                  createdAt:
+                    type: string
+                    format: date-time
+                    example: '2024-01-01T12:00:00.000Z'
+                  updatedAt:
+                    type: string
+                    format: date-time
+                    example: '2024-02-01T12:00:00.000Z'
+                  bookAuthors:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        bookAuthorId:
+                          type: integer
+                          example: 12
+                        role:
+                          type: string
+                          example: primary
+                        author:
+                          type: object
+                          properties:
+                            authorId:
+                              type: integer
+                              example: 3
+                            firstName:
+                              type: string
+                              example: Ernest
+                            lastName:
+                              type: string
+                              example: Hemingway
+                  bookGenres:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        bookGenreId:
+                          type: integer
+                          example: 7
+                        genre:
+                          type: object
+                          properties:
+                            genreId:
+                              type: integer
+                              example: 2
+                            name:
+                              type: string
+                              example: Fiction
+                  checkouts:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        checkoutId:
+                          type: integer
+                          example: 101
+                        user:
+                          type: object
+                          properties:
+                            userId:
+                              type: integer
+                              example: 5
+                            email:
+                              type: string
+                              example: johndoe@example.com
+                            fullName:
+                              type: string
+                              example: John Doe
+                        checkedOutAt:
+                          type: string
+                          format: date-time
+                          example: '2024-01-15T10:00:00.000Z'
+                        dueAt:
+                          type: string
+                          format: date-time
+                          example: '2024-02-15T10:00:00.000Z'
+                        returnedAt:
+                          type: string
+                          format: date-time
+                          nullable: true
+                          example: null
+                        status:
+                          type: string
+                          example: open
+    user:
+      type: object
+      properties:
+        userId:
+          type: integer
+          readOnly: true
+          example: 5
+        email:
+          type: string
+          example: johndoe@example.com
+        fullName:
+          type: string
+          example: John Doe
+        role:
+          type: string
+          enum:
+            - member
+            - librarian
+          example: member
+        status:
+          type: string
+          enum:
+            - active
+            - banned
+          example: active
+        createdAt:
+          type: string
+          format: date-time
+          example: '2024-01-01T12:00:00.000Z'
+        updatedAt:
+          type: string
+          format: date-time
+          example: '2024-02-01T12:00:00.000Z'
+        checkouts:
+          type: array
+          items:
+            type: object
+            properties:
+              checkoutId:
+                type: integer
+                example: 101
+              book:
+                type: object
+                properties:
+                  bookId:
+                    type: integer
+                    example: 42
+                  isbn:
+                    type: string
+                    example: 978-0142437230
+                  title:
+                    type: string
+                    example: The Old Man and The Sea
+                  bookAuthors:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        bookAuthorId:
+                          type: integer
+                          example: 12
+                        author:
+                          type: object
+                          properties:
+                            authorId:
+                              type: integer
+                              example: 3
+                            firstName:
+                              type: string
+                              example: Ernest
+                            lastName:
+                              type: string
+                              example: Hemingway
+                  bookGenres:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        bookGenreId:
+                          type: integer
+                          example: 7
+                        genre:
+                          type: object
+                          properties:
+                            genreId:
+                              type: integer
+                              example: 2
+                            name:
+                              type: string
+                              example: Fiction
+              checkedOutAt:
+                type: string
+                format: date-time
+                example: '2024-01-15T10:00:00.000Z'
+              dueAt:
+                type: string
+                format: date-time
+                example: '2024-02-15T10:00:00.000Z'
+              returnedAt:
+                type: string
+                format: date-time
+                nullable: true
+                example: null
+              status:
+                type: string
+                example: open
+    genre:
+      type: object
+      properties:
+        genreId:
+          type: integer
+          readOnly: true
+          example: 2
+        name:
+          type: string
+          example: Fiction
+        description:
+          type: string
+          nullable: true
+          example: Narrative literary works of prose.
+        bookGenres:
+          type: array
+          items:
+            type: object
+            properties:
+              bookGenreId:
+                type: integer
+                example: 7
+              book:
+                type: object
+                properties:
+                  bookId:
+                    type: integer
+                    example: 42
+                  isbn:
+                    type: string
+                    example: 978-0142437230
+                  title:
+                    type: string
+                    example: The Old Man and The Sea
+                  bookAuthors:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        bookAuthorId:
+                          type: integer
+                          example: 12
+                        author:
+                          type: object
+                          properties:
+                            authorId:
+                              type: integer
+                              example: 3
+                            firstName:
+                              type: string
+                              example: Ernest
+                            lastName:
+                              type: string
+                              example: Hemingway
+                  checkouts:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        checkoutId:
+                          type: integer
+                          example: 101
+                        user:
+                          type: object
+                          properties:
+                            userId:
+                              type: integer
+                              example: 5
+                            email:
+                              type: string
+                              example: johndoe@example.com
+                            fullName:
+                              type: string
+                              example: John Doe
+    checkout:
+      type: object
+      properties:
+        checkoutId:
+          type: integer
+          readOnly: true
+          example: 101
+        userId:
+          type: integer
+          example: 5
+        bookId:
+          type: integer
+          example: 42
+        checkedOutAt:
+          type: string
+          format: date-time
+          example: '2024-01-15T10:00:00.000Z'
+        dueAt:
+          type: string
+          format: date-time
+          example: '2024-02-15T10:00:00.000Z'
+        returnedAt:
+          type: string
+          format: date-time
+          nullable: true
+          example: null
+        status:
+          type: string
+          example: open
+        user:
+          type: object
+          description: Included user object (returned by repo `include`)
+          properties:
+            userId:
+              type: integer
+              example: 5
+            email:
+              type: string
+              example: johndoe@example.com
+            fullName:
+              type: string
+              example: John Doe
+            role:
+              type: string
+              example: member
+            status:
+              type: string
+              example: active
+        book:
+          type: object
+          description: Included book object (repo includes authors & genres)
+          properties:
+            bookId:
+              type: integer
+              example: 42
+            isbn:
+              type: string
+              example: 978-0142437230
+            title:
+              type: string
+              example: The Old Man and The Sea
+            published:
+              type: string
+              format: date-time
+              example: '1952-09-01T00:00:00.000Z'
+            copiesTotal:
+              type: integer
+              example: 5
+            copiesAvailable:
+              type: integer
+              example: 2
+            bookAuthors:
+              type: array
+              items:
+                type: object
+                properties:
+                  bookAuthorId:
+                    type: integer
+                    example: 12
+                  role:
+                    type: string
+                    example: primary
+                  author:
+                    type: object
+                    properties:
+                      authorId:
+                        type: integer
+                        example: 3
+                      firstName:
+                        type: string
+                        example: Ernest
+                      lastName:
+                        type: string
+                        example: Hemingway
+            bookGenres:
+              type: array
+              items:
+                type: object
+                properties:
+                  bookGenreId:
+                    type: integer
+                    example: 7
+                  genre:
+                    type: object
+                    properties:
+                      genreId:
+                        type: integer
+                        example: 2
+                      name:
+                        type: string
+                        example: Fiction
+                      description:
+                        type: string
+                        nullable: true
+                        example: Narrative literary works of prose.
+  responses:
+    badRequest:
+      description: Bad request
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ValidationError'
+          examples:
+            BadRequest:
+              value:
+                error: Bad request
+    unauthorized:
+      description: Unauthorized
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ValidationError'
+          examples:
+            Unauthorized:
+              value:
+                error: Unauthorized
+    forbidden:
+      description: Forbidden
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ValidationError'
+          examples:
+            Forbidden:
+              value:
+                error: Forbidden
+    internalServerError:
+      description: Internal server error
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ValidationError'
+          examples:
+            InternalServerError:
+              value:
+                error: Internal server error
+    conflict:
+      description: Conflict
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ValidationError'
+          examples:
+            Conflict:
+              value:
+                error: Conflict
+    notFound:
+      description: Resource not found
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ValidationError'
+          examples:
+            NotFound:
+              value:
+                error: Resource not found

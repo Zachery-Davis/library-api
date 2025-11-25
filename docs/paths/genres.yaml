@@ -1,0 +1,47 @@
+get:
+  summary: List all genres
+  tags:
+    - Genres
+  responses:
+    '200':
+      description: OK
+      content:
+        application/json:
+          schema:
+            type: array
+            items:
+              $ref: ../components/schemas/genre.yaml
+    '500':
+      $ref: ../components/responses/internalServerError.yaml
+
+post:
+  summary: Create a new genre
+  tags:
+    - Genres
+  requestBody:
+    required: true
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            name:
+              type: string
+              example: Fiction
+  responses:
+    '201':
+      description: Genre created
+      content:
+        application/json:
+          schema:
+            $ref: ../components/schemas/genre.yaml
+    '400':
+      $ref: ../components/responses/badRequest.yaml
+    '401':
+      $ref: ../components/responses/unauthorized.yaml
+    '403':
+      $ref: ../components/responses/forbidden.yaml
+    '409':
+      $ref: ../components/responses/conflict.yaml
+    '500':
+      $ref: ../components/responses/internalServerError.yaml
