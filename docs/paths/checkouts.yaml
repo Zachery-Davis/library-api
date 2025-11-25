@@ -12,28 +12,6 @@ get:
             items:
               $ref: ../components/schemas/checkout.yaml
 
-get:
-  summary: Get a checkout by ID
-  tags:
-    - Checkouts
-  parameters:
-    - name: checkoutId
-      in: path
-      required: true
-      description: ID of the checkout to retrieve
-      schema:
-        type: integer
-        example: 1
-  responses:
-    '200':
-      description: OK
-      content:
-        application/json:
-          schema:
-            $ref: ../components/schemas/checkout.yaml
-    '404':
-      description: Checkout not found
-
 post:
   summary: Create a new checkout
   tags:

@@ -19,26 +19,23 @@ tags:
   - name: Checkouts
     description: Checkout-related endpoints
 paths:
+  /books/{bookId}:
+    $ref: paths/booksByID.yaml
   /books:
     $ref: paths/books.yaml
-  /books/{bookId}:
-    $ref: paths/books.yaml
+  /authors/{authorId}:
+    $ref: paths/authorsByID.yaml
   /authors:
     $ref: paths/authors.yaml
-  /authors/{authorId}:
-    $ref: paths/authors.yaml
+  /users/{userId}:
+    $ref: paths/usersByID.yaml
   /users:
     $ref: paths/users.yaml
-  /users/{userId}:
-    $ref: paths/users.yaml
+  /genres/{genreId}:
+    $ref: paths/genresByID.yaml
   /genres:
     $ref: paths/genres.yaml
-  /genres/{genreId}:
-    $ref: paths/genres.yaml
+  /checkouts/{checkoutId}:
+    $ref: paths/checkoutsByID.yaml
   /checkouts:
     $ref: paths/checkouts.yaml
-  /checkouts/{checkoutId}:
-    $ref: paths/checkouts.yaml
-  
-  
-  

@@ -12,28 +12,6 @@ get:
             items:
               $ref: ../components/schemas/genre.yaml
 
-get:
-  summary: Get a genre by ID
-  tags:
-    - Genres
-  parameters:
-    - name: genreId
-      in: path
-      required: true
-      description: ID of the genre to retrieve
-      schema:
-        type: integer
-        example: 1
-  responses:
-    '200':
-      description: OK
-      content:
-        application/json:
-          schema:
-            $ref: ../components/schemas/genre.yaml
-    '404':
-      description: Genre not found
-
 post:
   summary: Create a new genre
   tags:

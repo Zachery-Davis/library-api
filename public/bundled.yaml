@@ -10,10 +10,40 @@ servers:
 tags:
   - name: Books
     description: Book-related endpoints
+  - name: Authors
+    description: Author-related endpoints
+  - name: Users
+    description: User-related endpoints
+  - name: Genres
+    description: Genre-related endpoints
+  - name: Checkouts
+    description: Checkout-related endpoints
 paths:
+  /books/{bookId}:
+    get:
+      summary: Get book by ID
+      tags:
+        - Books
+      parameters:
+        - name: bookId
+          in: path
+          required: true
+          description: ID of the book to retrieve
+          schema:
+            type: integer
+            example: 1
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/book'
+        '404':
+          description: Book not found
   /books:
     get:
-      summary: List all books
+      summary: List all books by author
       tags:
         - Books
       parameters:
@@ -40,6 +70,530 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/book'
+    post:
+      summary: Create a new book
+      tags:
+        - Books
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                title:
+                  type: string
+                  example: The Old Man and The Sea
+                author:
+                  type: string
+                  example: Ernest Hemingway
+      responses:
+        '201':
+          description: Book created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/book'
+    put:
+      summary: Update an existing book
+      tags:
+        - Books
+      parameters:
+        - name: bookId
+          in: path
+          required: true
+          description: The ID of the book to update
+          schema:
+            type: integer
+            example: 1
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                title:
+                  type: string
+                  example: The Old Man and The Sea
+                author:
+                  type: string
+                  example: Ernest Hemingway
+      responses:
+        '200':
+          description: Book updated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/book'
+        '404':
+          description: Book not found
+    delete:
+      summary: Delete a book
+      tags:
+        - Books
+      parameters:
+        - name: bookId
+          in: path
+          required: true
+          description: ID of the book to delete
+          schema:
+            type: integer
+      responses:
+        '204':
+          description: Book deleted successfully
+        '404':
+          description: Book not found
+  /authors/{authorId}:
+    get:
+      summary: Get an author by ID
+      tags:
+        - Authors
+      parameters:
+        - name: authorId
+          in: path
+          required: true
+          description: ID of the author to retrieve
+          schema:
+            type: integer
+            example: 1
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/author'
+        '404':
+          description: Author not found
+  /authors:
+    get:
+      summary: List all authors
+      tags:
+        - Authors
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/author'
+    post:
+      summary: Create a new author
+      tags:
+        - Authors
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                  example: Ernest Hemingway
+      responses:
+        '201':
+          description: Author created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/author'
+    put:
+      summary: Update an existing author
+      tags:
+        - Authors
+      parameters:
+        - name: authorId
+          in: path
+          required: true
+          description: ID of the author to update
+          schema:
+            type: integer
+            example: 1
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                  example: Ernest Hemingway
+      responses:
+        '200':
+          description: Author updated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/author'
+        '404':
+          description: Author not found
+    delete:
+      summary: Delete an author
+      tags:
+        - Authors
+      parameters:
+        - name: authorId
+          in: path
+          required: true
+          description: ID of the author to delete
+          schema:
+            type: integer
+            example: 1
+      responses:
+        '204':
+          description: Author deleted successfully
+        '404':
+          description: Author not found
+  /users/{userId}:
+    get:
+      summary: Get a user by ID
+      tags:
+        - Users
+      parameters:
+        - name: userId
+          in: path
+          required: true
+          description: ID of the user to retrieve
+          schema:
+            type: integer
+            example: 1
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/user'
+        '404':
+          description: User not found
+  /users:
+    get:
+      summary: List all users
+      tags:
+        - Users
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/user'
+    post:
+      summary: Create a new user
+      tags:
+        - Users
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                  example: John Doe
+                email:
+                  type: string
+                  example: johndoe@example.com
+      responses:
+        '201':
+          description: User created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/user'
+    put:
+      summary: Update an existing user
+      tags:
+        - Users
+      parameters:
+        - name: userId
+          in: path
+          required: true
+          description: ID of the user to update
+          schema:
+            type: integer
+            example: 1
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                  example: John Doe
+                email:
+                  type: string
+                  example: johndoe@example.com
+      responses:
+        '200':
+          description: User updated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/user'
+        '404':
+          description: User not found
+    delete:
+      summary: Delete a user
+      tags:
+        - Users
+      parameters:
+        - name: userId
+          in: path
+          required: true
+          description: ID of the user to delete
+          schema:
+            type: integer
+            example: 1
+      responses:
+        '204':
+          description: User deleted successfully
+        '404':
+          description: User not found
+  /genres/{genreId}:
+    get:
+      summary: Get a genre by ID
+      tags:
+        - Genres
+      parameters:
+        - name: genreId
+          in: path
+          required: true
+          description: ID of the genre to retrieve
+          schema:
+            type: integer
+            example: 1
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/genre'
+        '404':
+          description: Genre not found
+  /genres:
+    get:
+      summary: List all genres
+      tags:
+        - Genres
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/genre'
+    post:
+      summary: Create a new genre
+      tags:
+        - Genres
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                  example: Fiction
+      responses:
+        '201':
+          description: Genre created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/genre'
+    put:
+      summary: Update an existing genre
+      tags:
+        - Genres
+      parameters:
+        - name: genreId
+          in: path
+          required: true
+          description: ID of the genre to update
+          schema:
+            type: integer
+            example: 1
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                  example: Fiction
+      responses:
+        '200':
+          description: Genre updated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/genre'
+        '404':
+          description: Genre not found
+    delete:
+      summary: Delete a genre
+      tags:
+        - Genres
+      parameters:
+        - name: genreId
+          in: path
+          required: true
+          description: ID of the genre to delete
+          schema:
+            type: integer
+            example: 1
+      responses:
+        '204':
+          description: Genre deleted successfully
+        '404':
+          description: Genre not found
+  /checkouts/{checkoutId}:
+    get:
+      summary: Get a checkout by ID
+      tags:
+        - Checkouts
+      parameters:
+        - name: checkoutId
+          in: path
+          required: true
+          description: ID of the checkout to retrieve
+          schema:
+            type: integer
+            example: 1
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/checkout'
+        '404':
+          description: Checkout not found
+  /checkouts:
+    get:
+      summary: List all checkouts
+      tags:
+        - Checkouts
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/checkout'
+    post:
+      summary: Create a new checkout
+      tags:
+        - Checkouts
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                userId:
+                  type: integer
+                  example: 5
+                bookId:
+                  type: integer
+                  example: 12
+                checkoutDate:
+                  type: string
+                  format: date
+                  example: '2024-01-15'
+                returnDate:
+                  type: string
+                  format: date
+                  nullable: true
+                  example: '2024-02-01'
+      responses:
+        '201':
+          description: Checkout created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/checkout'
+    put:
+      summary: Update an existing checkout
+      tags:
+        - Checkouts
+      parameters:
+        - name: checkoutId
+          in: path
+          required: true
+          description: ID of the checkout to update
+          schema:
+            type: integer
+            example: 1
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                userId:
+                  type: integer
+                  example: 5
+                bookId:
+                  type: integer
+                  example: 12
+                checkoutDate:
+                  type: string
+                  format: date
+                  example: '2024-01-15'
+                returnDate:
+                  type: string
+                  format: date
+                  nullable: true
+                  example: '2024-02-01'
+      responses:
+        '200':
+          description: Checkout updated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/checkout'
+        '404':
+          description: Checkout not found
+    delete:
+      summary: Delete a checkout
+      tags:
+        - Checkouts
+      parameters:
+        - name: checkoutId
+          in: path
+          required: true
+          description: ID of the checkout to delete
+          schema:
+            type: integer
+            example: 1
+      responses:
+        '204':
+          description: Checkout deleted successfully
+        '404':
+          description: Checkout not found
 components:
   schemas:
     book:
@@ -55,3 +609,58 @@ components:
         author:
           type: string
           example: Ernest Hemingway
+    author:
+      type: object
+      properties:
+        id:
+          readOnly: true
+          type: integer
+          example: 1
+        name:
+          type: string
+          example: Ernest Hemingway
+    user:
+      type: object
+      properties:
+        id:
+          readOnly: true
+          type: integer
+          example: 1
+        name:
+          type: string
+          example: John Doe
+        email:
+          type: string
+          example: johndoe@example.com
+    genre:
+      type: object
+      properties:
+        id:
+          readOnly: true
+          type: integer
+          example: 1
+        name:
+          type: string
+          example: Fiction
+    checkout:
+      type: object
+      properties:
+        id:
+          readOnly: true
+          type: integer
+          example: 1
+        userId:
+          type: integer
+          example: 5
+        bookId:
+          type: integer
+          example: 12
+        checkoutDate:
+          type: string
+          format: date
+          example: '2024-01-15'
+        returnDate:
+          type: string
+          format: date
+          nullable: true
+          example: '2024-02-01'
