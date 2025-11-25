@@ -1,0 +1,21 @@
+get:
+  summary: Get an author by ID
+  tags:
+    - Authors
+  parameters:
+    - name: authorId
+      in: path
+      required: true
+      description: ID of the author to retrieve
+      schema:
+        type: integer
+        example: 1
+  responses:
+    '200':
+      description: OK
+      content:
+        application/json:
+          schema:
+            $ref: ../components/schemas/author.yaml
+    '404':
+      description: Author not found

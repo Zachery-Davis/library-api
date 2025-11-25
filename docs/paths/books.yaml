@@ -27,28 +27,6 @@ get:
             items:
               $ref: ../components/schemas/book.yaml
 
-get:
-  summary: Get book by ID
-  tags:
-    - Books
-  parameters:
-    - name: bookId
-      in: path
-      required: true
-      description: ID of the book to retrieve
-      schema:
-        type: integer
-        example: 1
-  responses:
-    '200':
-      description: OK
-      content:
-        application/json:
-          schema:
-            $ref: ../components/schemas/book.yaml
-    '404':
-      description: Book not found
-
 post:
   summary: Create a new book
   tags:

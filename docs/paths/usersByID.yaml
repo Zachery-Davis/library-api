@@ -1,0 +1,21 @@
+get:
+  summary: Get a user by ID
+  tags:
+    - Users
+  parameters:
+    - name: userId
+      in: path
+      required: true
+      description: ID of the user to retrieve
+      schema:
+        type: integer
+        example: 1
+  responses:
+    '200':
+      description: OK
+      content:
+        application/json:
+          schema:
+            $ref: ../components/schemas/user.yaml
+    '404':
+      description: User not found
