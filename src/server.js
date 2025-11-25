@@ -21,7 +21,11 @@ if (!process.env.JWT_SECRET) {
 
 app.use(
   cors({
-    origin: ['https://library-api-uo21.onrender.com', 'http://localhost:3000'],
+    origin: [
+      'https://library-api-uo21.onrender.com',
+      'https://library-api-dj3n.onrender.com',
+      'http://localhost:3000',
+    ],
   }),
 );
 app.use(express.json());

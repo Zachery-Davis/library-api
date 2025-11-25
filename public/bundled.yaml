@@ -7,6 +7,8 @@ servers:
     description: Local development server
   - url: https://library-api-uo21.onrender.com
     description: Production server on render
+  - url: https://library-api-dj3n.onrender.com
+    description: Production server on render
 tags:
   - name: Books
     description: Book-related endpoints
