@@ -10,6 +10,35 @@ servers:
 tags:
   - name: Books
     description: Book-related endpoints
+  - name: Authors
+    description: Author-related endpoints
+  - name: Users
+    description: User-related endpoints
+  - name: Genres
+    description: Genre-related endpoints
+  - name: Checkouts
+    description: Checkout-related endpoints
 paths:
   /books:
     $ref: paths/books.yaml
+  /books/{bookId}:
+    $ref: paths/books.yaml
+  /authors:
+    $ref: paths/authors.yaml
+  /authors/{authorId}:
+    $ref: paths/authors.yaml
+  /users:
+    $ref: paths/users.yaml
+  /users/{userId}:
+    $ref: paths/users.yaml
+  /genres:
+    $ref: paths/genres.yaml
+  /genres/{genreId}:
+    $ref: paths/genres.yaml
+  /checkouts:
+    $ref: paths/checkouts.yaml
+  /checkouts/{checkoutId}:
+    $ref: paths/checkouts.yaml
+  
+  
+  

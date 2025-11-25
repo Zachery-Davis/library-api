@@ -1,0 +1,107 @@
+get:
+  summary: List all authors
+  tags:
+    - Authors
+  responses:
+    '200':
+      description: OK
+      content:
+        application/json:
+          schema:
+            type: array
+            items:
+              $ref: ../components/schemas/author.yaml
+
+get:
+  summary: Get an author by ID
+  tags:
+    - Authors
+  parameters:
+    - name: authorId
+      in: path
+      required: true
+      description: ID of the author to retrieve
+      schema:
+        type: integer
+        example: 1
+  responses:
+    '200':
+      description: OK
+      content:
+        application/json:
+          schema:
+            $ref: ../components/schemas/author.yaml
+    '404':
+      description: Author not found
+
+post:
+  summary: Create a new author
+  tags:
+    - Authors
+  requestBody:
+    required: true
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            name:
+              type: string
+              example: Ernest Hemingway
+  responses:
+    '201':
+      description: Author created
+      content:
+        application/json:
+          schema:
+            $ref: ../components/schemas/author.yaml
+
+put:
+  summary: Update an existing author
+  tags:
+    - Authors
+  parameters:
+    - name: authorId
+      in: path
+      required: true
+      description: ID of the author to update
+      schema:
+        type: integer
+        example: 1
+  requestBody:
+    required: true
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            name:
+              type: string
+              example: Ernest Hemingway
+  responses:
+    '200':
+      description: Author updated
+      content:
+        application/json:
+          schema:
+            $ref: ../components/schemas/author.yaml
+    '404':
+      description: Author not found
+
+delete:
+  summary: Delete an author
+  tags:
+    - Authors
+  parameters:
+    - name: authorId
+      in: path
+      required: true
+      description: ID of the author to delete
+      schema:
+        type: integer
+        example: 1
+  responses:
+    '204':
+      description: Author deleted successfully
+    '404':
+      description: Author not found
