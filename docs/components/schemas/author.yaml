@@ -1,9 +1,141 @@
 type: object
 properties:
-  id:
-    readOnly: true
+  authorId:
     type: integer
-    example: 1
-  name:
+    readOnly: true
+    example: 3
+  firstName:
     type: string
-    example: Ernest Hemingway
+    example: "Ernest"
+  lastName:
+    type: string
+    example: "Hemingway"
+  bio:
+    type: string
+    nullable: true
+    example: "American novelist and short-story writer."
+  # This is the shape returned by your authorRepo includes:
+  bookAuthors:
+    type: array
+    items:
+      type: object
+      properties:
+        bookAuthorId:
+          type: integer
+          readOnly: true
+          example: 12
+        role:
+          type: string
+          example: "primary"
+        book:
+          type: object
+          description: Book object included by the repo (kept compact to avoid infinite recursion)
+          properties:
+            bookId:
+              type: integer
+              example: 42
+            isbn:
+              type: string
+              example: "978-0142437230"
+            title:
+              type: string
+              example: "The Old Man and The Sea"
+            published:
+              type: string
+              format: date-time
+              example: "1952-09-01T00:00:00.000Z"
+            copiesTotal:
+              type: integer
+              example: 5
+            copiesAvailable:
+              type: integer
+              example: 2
+            description:
+              type: string
+              nullable: true
+              example: "A short novel about an aging fisherman."
+            createdAt:
+              type: string
+              format: date-time
+              example: "2024-01-01T12:00:00.000Z"
+            updatedAt:
+              type: string
+              format: date-time
+              example: "2024-02-01T12:00:00.000Z"
+            # compact lists of relations (authors/genres) are shown in short form
+            bookAuthors:
+              type: array
+              items:
+                type: object
+                properties:
+                  bookAuthorId:
+                    type: integer
+                    example: 12
+                  role:
+                    type: string
+                    example: "primary"
+                  author:
+                    type: object
+                    properties:
+                      authorId:
+                        type: integer
+                        example: 3
+                      firstName:
+                        type: string
+                        example: "Ernest"
+                      lastName:
+                        type: string
+                        example: "Hemingway"
+            bookGenres:
+              type: array
+              items:
+                type: object
+                properties:
+                  bookGenreId:
+                    type: integer
+                    example: 7
+                  genre:
+                    type: object
+                    properties:
+                      genreId:
+                        type: integer
+                        example: 2
+                      name:
+                        type: string
+                        example: "Fiction"
+            checkouts:
+              type: array
+              items:
+                type: object
+                properties:
+                  checkoutId:
+                    type: integer
+                    example: 101
+                  user:
+                    type: object
+                    properties:
+                      userId:
+                        type: integer
+                        example: 5
+                      email:
+                        type: string
+                        example: "johndoe@example.com"
+                      fullName:
+                        type: string
+                        example: "John Doe"
+                  checkedOutAt:
+                    type: string
+                    format: date-time
+                    example: "2024-01-15T10:00:00.000Z"
+                  dueAt:
+                    type: string
+                    format: date-time
+                    example: "2024-02-15T10:00:00.000Z"
+                  returnedAt:
+                    type: string
+                    format: date-time
+                    nullable: true
+                    example: null
+                  status:
+                    type: string
+                    example: "open"
