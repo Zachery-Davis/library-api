@@ -4,6 +4,9 @@ import cors from 'cors';
 import swagger from 'swagger-ui-express';
 import YAML from 'yamljs';
 import bookRoutes from './routes/bookRoutes.js';
+import authRoutes from './routes/authRoutes.js';
+
+
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -21,6 +24,8 @@ app.use('/api-docs', swagger.serve, swagger.setup(specs));
 app.get('/health', (req, res) => {
   res.status(200).json({ status: 'ok' });
 });
+
+app.use('/auth', authRoutes);
 
 app.use('/books', bookRoutes);
 
