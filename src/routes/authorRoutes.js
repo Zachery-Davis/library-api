@@ -2,12 +2,36 @@ import express from 'express';
 import * as authorController from '../controllers/authorController.js';
 import { validateAuthor } from '../middleware/authorValidator.js';
 
+import {
+  authenticateToken,
+  requireRole
+} from '../middleware/authMiddleware.js';
+
 const router = express.Router();
 
-router.post('/', validateAuthor, authorController.createAuthor);
+router.post('/',
+  authenticateToken,
+  requireRole('librarian'),
+  validateAuthor,
+  authorController.createAuthor
+);
+
 router.get('/', authorController.getAuthors);
 router.get('/:id', authorController.getAuthor);
-router.put('/:id', validateAuthor, authorController.updateAuthor);
-router.delete('/:id', authorController.deleteAuthor);
+
+
+router.put('/:id',
+  authenticateToken,
+  requireRole('librarian'),
+  validateAuthor,
+  authorController.updateAuthor
+);
+
+
+router.delete('/:id',
+  authenticateToken,
+  requireRole('librarian'),
+  authorController.deleteAuthor
+);
 
 export default router;
