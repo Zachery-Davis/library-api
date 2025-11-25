@@ -16,7 +16,23 @@ export async function getUser(req, res) {
 }
 
 export async function updateUser(req, res) {
-  const updated = await userService.updateUser(req.params.id, req.body);
+  if (
+    req.user.role !== 'librarian' &&
+    (Object.prototype.hasOwnProperty.call(req.body, 'role') ||
+      Object.prototype.hasOwnProperty.call(req.body, 'status'))
+  ) {
+    return res.status(403).json({ error: 'Forbidden — cannot change role or status' });
+  }
+
+  const updates =
+    req.user.role === 'librarian'
+      ? req.body
+      : (() => {
+          const { role, status, ...rest } = req.body;
+          return rest;
+        })();
+
+  const updated = await userService.updateUser(req.params.id, updates);
   res.status(200).json(updated);
 }
 
