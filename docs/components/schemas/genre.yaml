@@ -1,43 +1,24 @@
 type: object
 properties:
-  userId:
+  genreId:
     type: integer
     readOnly: true
-    example: 5
-  email:
+    example: 2
+  name:
     type: string
-    example: "johndoe@example.com"
-  fullName:
+    example: "Fiction"
+  description:
     type: string
-    example: "John Doe"
-  role:
-    type: string
-    enum:
-      - member
-      - librarian
-    example: "member"
-  status:
-    type: string
-    enum:
-      - active
-      - banned
-    example: "active"
-  createdAt:
-    type: string
-    format: date-time
-    example: "2024-01-01T12:00:00.000Z"
-  updatedAt:
-    type: string
-    format: date-time
-    example: "2024-02-01T12:00:00.000Z"
-  checkouts:
+    nullable: true
+    example: "Narrative literary works of prose."
+  bookGenres:
     type: array
     items:
       type: object
       properties:
-        checkoutId:
+        bookGenreId:
           type: integer
-          example: 101
+          example: 7
         book:
           type: object
           properties:
@@ -70,36 +51,23 @@ properties:
                       lastName:
                         type: string
                         example: "Hemingway"
-            bookGenres:
+            checkouts:
               type: array
               items:
                 type: object
                 properties:
-                  bookGenreId:
+                  checkoutId:
                     type: integer
-                    example: 7
-                  genre:
+                    example: 101
+                  user:
                     type: object
                     properties:
-                      genreId:
+                      userId:
                         type: integer
-                        example: 2
-                      name:
+                        example: 5
+                      email:
                         type: string
-                        example: "Fiction"
-        checkedOutAt:
-          type: string
-          format: date-time
-          example: "2024-01-15T10:00:00.000Z"
-        dueAt:
-          type: string
-          format: date-time
-          example: "2024-02-15T10:00:00.000Z"
-        returnedAt:
-          type: string
-          format: date-time
-          nullable: true
-          example: null
-        status:
-          type: string
-          example: "open"
+                        example: "johndoe@example.com"
+                      fullName:
+                        type: string
+                        example: "John Doe"
